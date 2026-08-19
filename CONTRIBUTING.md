@@ -55,17 +55,15 @@ committing:
 - check that referenced skills and tools will exist for the target agents; and
 - confirm the content's provenance and redistribution terms.
 
-## Validate
+## Inspect
 
-Run both checks from the repository root:
+Confirm that the installer discovers the collection from the repository root:
 
 ```bash
-python3 scripts/validate_skills.py
 npx skills@latest add . --list
 ```
 
-The first check enforces this repository's naming and frontmatter contract. The
-second verifies that the installer discovers the collection.
+Review the printed names and descriptions before publishing.
 
 ## Review checklist
 

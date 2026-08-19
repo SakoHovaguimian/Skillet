@@ -5,9 +5,8 @@ Skillet is the source of truth for Sako's reusable agent skills. Each folder und
 Codex and Claude Code from this repository.
 
 The repository deliberately has no application runtime or package manifest. The
-skills are Markdown, optional supporting files, and a small standard-library
-validator. That keeps the system inspectable: installation is handled by the
-open `skills` CLI, while the behavior remains visible in each `SKILL.md`.
+skills are Markdown plus optional supporting files. Installation is handled by
+the open `skills` CLI, while the behavior remains visible in each `SKILL.md`.
 
 ## Install everything
 
@@ -27,10 +26,7 @@ and local development usage.
 skillet/
 ├── .github/
 │   ├── CODEOWNERS                  Default review ownership
-│   ├── pull_request_template.md    Consistent review checklist
-│   └── workflows/validate.yml      Automatic structural validation
-├── scripts/
-│   └── validate_skills.py          Dependency-free local validator
+│   └── pull_request_template.md    Consistent review checklist
 ├── skills/
 │   └── <skill-name>/
 │       ├── SKILL.md                Required skill entry point
@@ -75,8 +71,7 @@ and assets remain optional and should be added only when the skill genuinely use
 - `CONTRIBUTING.md` explains how a skill moves from idea to reviewed repository content.
 - `AGENTS.md` and `CLAUDE.md` keep Codex and Claude Code aligned when they edit this repo.
 - `.gitignore` prevents caches, local agent installs, and OS/editor noise from being published.
-- `.github/` supplies ownership, a review checklist, and validation on every change.
-- `scripts/validate_skills.py` catches malformed frontmatter and naming drift without adding dependencies.
+- `.github/` supplies default review ownership and a lightweight pull-request checklist.
 - `skills/` is the only distributable collection; one directory equals one installable skill.
 
 ## Design choices
