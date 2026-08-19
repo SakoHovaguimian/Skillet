@@ -1,0 +1,7 @@
+interface:
+  display_name: "Grimoire Project Scaffolding"
+  short_description: "Scaffold a new Grimoire iOS project safely"
+  default_prompt: "Use $grimoire-project-scaffolding-protocol to scaffold a new iOS app from the Grimoire template after collecting all required inputs first."
+
+policy:
+  allow_implicit_invocation: false

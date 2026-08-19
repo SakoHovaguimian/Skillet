@@ -1,0 +1,7 @@
+interface:
+  display_name: "Swift Sako Semantic Linter"
+  short_description: "Enforce modular Swift and Rune semantics"
+  default_prompt: "Use $swift-sako-semantic-linter to load only the applicable rule modules, review touched Swift files, and run the compact semantic scan."
+
+policy:
+  allow_implicit_invocation: false

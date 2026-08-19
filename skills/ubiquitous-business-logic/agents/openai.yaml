@@ -1,0 +1,7 @@
+interface:
+  display_name: "Ubiquitous Business Logic"
+  short_description: "Document business rules and domain oddities from code"
+  default_prompt: "Use $ubiquitous-business-logic to extract implemented business rules, edge cases, and oddities into docs/UBIQUITOUS_BUSINESS_LOGIC.md."
+
+policy:
+  allow_implicit_invocation: false

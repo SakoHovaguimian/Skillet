@@ -1,0 +1,7 @@
+interface:
+  display_name: "Grill Me"
+  short_description: "Resolve plans through evidence-backed decisions"
+  default_prompt: "Use $grill-me to pressure-test this proposal one material decision at a time."
+
+policy:
+  allow_implicit_invocation: false

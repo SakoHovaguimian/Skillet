@@ -1,0 +1,7 @@
+interface:
+  display_name: "Ubiquitous Components"
+  short_description: "Map Rune and app UI components into docs"
+  default_prompt: "Use $ubiquitous-components to catalog Rune and app UI APIs in docs/UBIQUITOUS_COMPONENTS.md."
+
+policy:
+  allow_implicit_invocation: false

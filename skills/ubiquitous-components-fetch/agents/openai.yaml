@@ -1,0 +1,7 @@
+interface:
+  display_name: "Ubiquitous Components Fetch"
+  short_description: "Fetch shared global Rune components catalog into a project"
+  default_prompt: "Use $ubiquitous-components-fetch to fetch the global Rune component catalog into this workspace."
+
+policy:
+  allow_implicit_invocation: false

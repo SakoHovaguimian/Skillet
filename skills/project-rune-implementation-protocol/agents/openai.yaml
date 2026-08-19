@@ -1,0 +1,7 @@
+interface:
+  display_name: "Grimoire Rune Protocol"
+  short_description: "Orchestrate Rune features with architecture parity"
+  default_prompt: "Use $project-rune-implementation-protocol to pattern-lock and implement the feature, using $swift-sako-semantic-linter as the coding-rule source of truth."
+
+policy:
+  allow_implicit_invocation: false

@@ -1,0 +1,7 @@
+interface:
+  display_name: "Commit-Aware Ubiquitous Docs Maintainer"
+  short_description: "Review recent commits for domain doc drift"
+  default_prompt: "Use $commit-aware-ubiquitous-docs-maintainer to review the last 10 commits and update the ubiquitous docs only if domain meaning changed."
+
+policy:
+  allow_implicit_invocation: false
