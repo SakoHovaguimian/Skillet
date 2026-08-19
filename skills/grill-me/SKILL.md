@@ -384,6 +384,12 @@ Ask:
 
 > Does this accurately represent our shared understanding, or is any decision, assumption, scope boundary, or risk still wrong or incomplete?
 
+## Writing hygiene
+
+When this skill is used standalone, invoke `$unslop` once after each complete user-facing interview artifact is drafted, including a round, conflict record, ledger update, or final shared-understanding summary. If a parent workflow owns the final artifact, let that outermost workflow make the single `$unslop` pass instead of running it twice.
+
+Preserve decision-state labels, code, paths, symbols, commands, quoted user answers, evidence anchors, and the decision structure. `$unslop` may improve prose, but it must not change the decision, introduce scope, or weaken the authorization gate.
+
 ## Authorization Gate
 
 Do not implement, edit files, generate production artifacts, execute commands, create tickets, or otherwise act on the plan until the user explicitly confirms the shared understanding.

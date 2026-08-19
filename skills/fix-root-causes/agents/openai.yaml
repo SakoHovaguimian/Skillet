@@ -1,0 +1,7 @@
+interface:
+  display_name: "Fix Root Causes"
+  short_description: "Debug causes instead of symptoms"
+  default_prompt: "Use $fix-root-causes to debug this failure and fix the underlying cause."
+
+policy:
+  allow_implicit_invocation: false

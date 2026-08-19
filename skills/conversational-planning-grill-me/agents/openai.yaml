@@ -1,7 +1,7 @@
 interface:
   display_name: "Conversational Planning"
   short_description: "Build an evidence-backed plan before coding"
-  default_prompt: "Use $conversational-planning-grill-me to inspect this repository, resolve the feature plan conversationally, and stop for approval before implementation."
+  default_prompt: "Use $conversational-planning-grill-me to inspect this repository, resolve the change plan conversationally, and stop for approval before implementation."
 
 policy:
   allow_implicit_invocation: false

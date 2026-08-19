@@ -1,0 +1,7 @@
+interface:
+  display_name: "Unslop"
+  short_description: "Remove AI writing tells and add human voice"
+  default_prompt: "Use $unslop to edit this writing into a more human voice."
+
+policy:
+  allow_implicit_invocation: false

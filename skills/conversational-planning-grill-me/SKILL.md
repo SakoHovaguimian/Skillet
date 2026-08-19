@@ -1,33 +1,32 @@
 ---
 name: conversational-planning-grill-me
-description: Produce an implementation-ready plan through repository discovery followed by a conversational, one-question-at-a-time decision interview. Use when planning or pressure-testing a non-trivial feature, refactor, migration, integration, or rollout before coding, especially in Nudge-iOS, Grimoire, or Rune projects with ubiquitous-language, business-logic, architecture, or implementation-protocol constraints. Stop at a final approval gate before implementation.
+description: Produce an implementation-ready plan for a repository or technical/product change through evidence-first discovery and a focused conversational decision interview. Use before coding when requirements, boundaries, risks, or trade-offs need to be resolved. This stack-neutral skill does not depend on iOS, SwiftUI, Rune, or ubiquitous-component catalogs.
 disable-model-invocation: true
 ---
 
-# Conversational Planning + Grill Me
+# Conversational planning + grill me
 
 ## Outcome
 
-Convert a rough request into a current, evidence-backed implementation plan that another agent can execute without rediscovering product intent or making material design choices.
+Turn a rough request into a current, evidence-backed implementation plan that another agent can execute without rediscovering product intent or making material design choices.
 
-Compose `$grill-me` as the interview engine. Do not copy or weaken its question loop, decision ledger, conflict handling, or completion gate here.
+Compose `$grill-me` as the interview engine. Do not copy or weaken its decision tree, frontier questions, decision ledger, conflict handling, or completion gate.
 
-## Phase 1: Discover Before Interviewing
+## Phase 1: Discover before interviewing
 
 Read, in order when present:
 
 1. Applicable `AGENTS.md` files and explicit user constraints.
-2. `docs/UBIQUITOUS_LANGUAGE*` and `docs/UBIQUITOUS_BUSINESS_LOGIC*`.
-3. `CONTEXT.md`, `CONTEXT-MAP.md`, ADRs, architecture docs, and feature notes.
-4. Relevant models and contracts, then services, DI, navigation, state owners, and UI.
-5. Tests, fixtures, previews, analytics, flags, migrations, and recent history that clarify intended behavior.
-6. Nearby implementation exemplars and formatter/linter configuration.
+2. Project context, domain, architecture, product, and decision documents.
+3. Relevant models and contracts, then services, integrations, state owners, routing, and UI or other presentation code.
+4. Tests, fixtures, examples, generated artifacts, analytics, flags, migrations, and recent history that clarify intended behavior.
+5. Nearby implementation exemplars and formatter, linter, or validation configuration.
 
 Use `rg` and targeted reads. Avoid broad repository dumps. Follow imports and call sites only until each planning branch has enough evidence.
 
-Treat domain docs as domain authority, not infallible snapshots. When docs and executable behavior differ, report both with source anchors and make reconciliation an explicit decision.
+Do not require or invent iOS, SwiftUI, Rune, or ubiquitous-component guidance. Read repository-specific conventions when the project actually provides and needs them, but keep this workflow usable for any stack.
 
-## Phase 2: Build the Initial Planning Model
+## Phase 2: Build the initial planning model
 
 Before the first question, summarize:
 
@@ -44,22 +43,16 @@ Read [references/plan-readiness.md](references/plan-readiness.md) once a reposit
 
 ## Phase 3: Run `$grill-me`
 
-Invoke `$grill-me` and follow its one-question loop exactly.
+Invoke `$grill-me` and follow its interview rules exactly. Let repository evidence settle discoverable facts, ask the user only for intent or authority, and keep the interview open until the decision-complete shared-understanding gate is satisfied.
 
-Prioritize product behavior and boundaries before implementation mechanics. Resolve contradictions with evidence, not deference. When a user answer conflicts with an instruction, contract, or invariant, explain the impact and recommend the closest viable alternative.
-
-Compose `$grill-with-docs` only when the user also requests live glossary, context-map, or ADR maintenance. Otherwise keep discovery read-only and list documentation changes in the final plan.
-
-Update the visible plan only when a decision materially changes it. Avoid repeating the full plan after every answer.
-
-## Phase 4: Produce the Executable Plan
+## Phase 4: Produce the executable plan
 
 Make the final plan proportionate to risk and include:
 
 - objective, success criteria, and non-goals
 - chosen approach and rejected alternatives that matter
 - exact systems and likely files to create, modify, move, or remove
-- data, API, state, lifecycle, concurrency, and failure behavior
+- data, API, state, lifecycle, concurrency, and failure behavior when applicable
 - compatibility, migration, rollout, observability, and rollback when applicable
 - accessibility, localization, privacy, security, and performance when applicable
 - verification strategy consistent with repository instructions and user authorization
@@ -68,19 +61,20 @@ Make the final plan proportionate to risk and include:
 
 Use paths and symbols as anchors when known. Mark speculative file paths as likely rather than guaranteed.
 
-## Approval Gate
+## Approval gate
 
 Restate the complete current plan once after all material branches close. Then stop and request explicit approval of that exact plan.
 
 Do not treat agreement with an earlier draft, generic enthusiasm, or a request to keep planning as implementation approval. Do not edit implementation files during this skill unless the user explicitly changes the task.
 
-## Implementation Handoff
+## Writing hygiene
 
-After approval:
+For a standalone invocation, invoke `$unslop` once on the complete user-facing planning artifact after its technical content is final. If a parent workflow owns the final artifact, let the outermost workflow make the single `$unslop` pass instead of running it twice.
 
-- For a Nudge-iOS, Grimoire, or Rune-backed SwiftUI implementation, invoke `$project-rune-implementation-protocol` with the approved plan and preserve all repository instructions.
-- For another stack, use the most specific available implementation skill or execute the approved plan directly.
-- Invoke `$swift-sako-semantic-linter` after in-scope Rune Swift/SwiftUI edits.
-- Invoke `$swift-6-concurrency` when the approved work materially changes isolation, `Sendable`, tasks, actors, or async control flow.
+Preserve code, paths, symbols, commands, quoted user decisions, evidence anchors, decision-state labels, and plan structure. `$unslop` may improve prose, but it must not change technical meaning, introduce decisions, or weaken the approval gate.
 
-The handoff must carry the final plan, decision ledger, constraints, verification limits, and unresolved risks. Never silently reopen an approved product decision during implementation; surface new contradictory evidence instead.
+## Implementation handoff
+
+After approval, use the most specific available implementation skill for the repository or execute the approved plan directly. Carry the final plan, decision ledger, constraints, verification limits, and unresolved risks into that handoff.
+
+Never silently reopen an approved product decision during implementation. Surface new contradictory evidence instead.

@@ -50,11 +50,11 @@ and assets remain optional and should be added only when the skill genuinely use
 | Skill | Purpose |
 | --- | --- |
 | `commit-aware-ubiquitous-docs-maintainer` | Updates domain documentation only when recent commits changed domain meaning. |
-| `competitive-intelligence` | Researches competitors and renders sales-ready battlecards. |
-| `conversational-planning-grill-me` | Combines repository discovery with a decision-complete planning interview. |
+| `conversational-planning-grill-me` | Combines stack-neutral repository discovery with a decision-complete planning interview. |
+| `fix-root-causes` | Debugs failures by fixing underlying causes instead of symptoms. |
 | `grill-me` | Pressure-tests plans and resolves requirements before action. |
-| `grill-with-docs` | Grounds planning interviews in domain docs, code, and ADRs. |
 | `grimoire-project-scaffolding-protocol` | Scaffolds iOS projects from the Grimoire template. |
+| `ios-conversational-planning-grill-me` | Adds iOS, SwiftUI, Rune, and domain-document discovery to conversational planning. |
 | `ios-dead-code` | Audits hybrid UIKit/SwiftUI projects for unreachable code and assets. |
 | `project-rune-implementation-protocol` | Implements Rune-first SwiftUI features with architecture parity. |
 | `swift-6-concurrency` | Guides Swift 6 concurrency design, migration, and debugging. |
@@ -63,6 +63,7 @@ and assets remain optional and should be added only when the skill genuinely use
 | `ubiquitous-components` | Builds the shared Rune and app UI component catalog. |
 | `ubiquitous-components-fetch` | Imports the shared Rune component catalog into a project. |
 | `ubiquitous-language` | Builds and maintains a code-grounded domain glossary. |
+| `unslop` | Removes AI writing tells and adds a human voice. |
 
 ## Why each top-level file exists
 

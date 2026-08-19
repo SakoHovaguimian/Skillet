@@ -61,6 +61,10 @@ Use these categories strictly:
 
 Never put `@objc` methods, public UI components, `Decodable` models, or string-addressed resources directly in Safe to Remove unless the dynamic call surface has been searched and ruled out.
 
+## Writing hygiene
+
+Before delivering the audit report, invoke `$unslop` once on the complete report. Preserve headings, classification labels, counts, confidence categories, file paths, line numbers, symbols, command output, and evidence. `$unslop` may improve the prose, but it must not change a finding, remove a caveat, or promote a candidate to a safer confidence category. If a parent workflow owns the final report, let that outermost workflow make the single pass instead of running it twice.
+
 ## Report Format
 
 Use this structure:

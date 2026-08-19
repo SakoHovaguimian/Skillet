@@ -1,0 +1,7 @@
+interface:
+  display_name: "iOS Conversational Planning"
+  short_description: "Build an iOS plan before coding"
+  default_prompt: "Use $ios-conversational-planning-grill-me to inspect this iOS repository, resolve the feature plan conversationally, and stop for approval before implementation."
+
+policy:
+  allow_implicit_invocation: false
