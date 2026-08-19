@@ -1,5 +1,7 @@
 # Skillet
 
+<img width="400" height="400" alt="ChatGPT Image Aug 19, 2026 at 03_44_12 PM" src="https://github.com/user-attachments/assets/ec40177f-ec05-4be4-81ca-57fd9425fe16" />
+
 Skillet is the source of truth for Sako's reusable agent skills. Each folder under
 [`skills/`](skills/) is a self-contained capability that can be installed into
 Codex and Claude Code from this repository.
