@@ -1,25 +1,20 @@
 ---
 name: ubiquitous-business-logic
-description: Extract and document core business rules, domain knowledge, edge cases, implementation oddities, deeplinks, and analytics instrumentation by analyzing the current conversation and codebase. Use when Codex needs to codify hidden logic, document why a domain-specific technical decision exists, map routes or deeplinks, audit analytics params for screen, error, and track events, and write or refresh docs/UBIQUITOUS_BUSINESS_LOGIC.md grounded in real code paths.
+description: Extract and document core business rules, domain knowledge, edge cases, implementation oddities, deeplinks, and analytics instrumentation by analyzing the current conversation and codebase, writing `docs/UBIQUITOUS_BUSINESS_LOGIC.md` grounded in real code paths. Use when hidden logic needs codifying, a domain-specific technical decision needs its rationale documented, routes or deeplinks need mapping, or analytics params need auditing for screen, error, and track events. Do not use for terminology and glossaries; use `$ubiquitous-language` for those.
 disable-model-invocation: true
 ---
 
 # Ubiquitous Business Logic
 
-Extract, centralize, and maintain the actual business rules, domain knowledge, edge cases, deeplinks, analytics instrumentation, and implementation oddities as they exist in the codebase.
+## Outcome
 
-The goal is not to produce a generic architecture document. The goal is to make hidden product behavior easy to understand, verify, and maintain without losing precision.
+The actual business rules, domain knowledge, edge cases, deeplinks, analytics instrumentation, and implementation oddities, as they exist in the codebase, extracted and centralized in `docs/UBIQUITOUS_BUSINESS_LOGIC.md`. The goal is not a generic architecture document; it is to make hidden product behavior easy to understand, verify, and maintain without losing precision.
 
-## Operating Principles
+## Inputs and preconditions
 
-- Preserve existing knowledge. Merge forward from the existing document instead of replacing it wholesale.
-- Ground every claim in code. Include file names, functions, constants, schemas, route names, event names, or guard clauses wherever possible.
-- Favor visual structure. Use diagrams, maps, checklists, matrices, and compact tables so readers can understand the system quickly.
-- Separate product truth from implementation weirdness. Intended behavior, hacks, legacy support, vendor workarounds, and retired rules should not be mixed together.
-- Be explicit about uncertainty. Mark behavior as `Confirmed`, `Partially confirmed`, `Contradicted`, or `Needs verification` based on the evidence found.
-- Do not remove details. If information is still valid, keep it. If the code contradicts it, move it to discrepancies or retired logic only when evidence supports that change.
+The current conversation's claims about behavior, the existing `docs/UBIQUITOUS_BUSINESS_LOGIC.md` when present, and the codebase. Ensure a `docs` directory exists in the project root before writing, creating it if needed.
 
-## Workflow Map
+## Workflow
 
 ```text
 Conversation context
@@ -43,146 +38,106 @@ Write visual documentation with evidence tables
 Final verification pass + short inline summary
 ```
 
-## Workflow
+1. Extract claims from the current conversation.
+   Capture rules, constraints, policies, workarounds, edge cases, deeplink expectations, analytics requirements, and any stated rationale. Pay special attention to:
+   - the reason the logic exists
+   - the user-visible behavior
+   - affected screens, routes, or flows
+   - analytics events and required params
+   - stated exceptions, overrides, and legacy behavior
+   - places where the user says the code should behave differently than it currently does
 
-### 1. Extract claims from the current conversation
+2. Read the existing business logic document if it exists. Merge forward instead of overwriting:
 
-Capture rules, constraints, policies, workarounds, edge cases, deeplink expectations, analytics requirements, and any stated rationale. Pay special attention to:
+   | Existing content status | Action |
+   | --- | --- |
+   | Still matches implementation | Preserve and refresh evidence if needed. |
+   | More specific than new findings | Keep the specific version and add new supporting details. |
+   | Contradicted by code | Record the discrepancy and cite the code evidence. |
+   | No longer enforced | Move to `Retired Logic` only when the conversation or code explicitly supports retirement. |
+   | Unverified but important | Keep it only if clearly marked as needing verification. |
 
-- the reason the logic exists
-- the user-visible behavior
-- affected screens, routes, or flows
-- analytics events and required params
-- stated exceptions, overrides, and legacy behavior
-- places where the user says the code should behave differently than it currently does
+3. Inspect the codebase for implemented rules. Prioritize searches in:
+   - `use-cases` / `usecases`
+   - `services` / `handlers`
+   - `domain`
+   - `validators` / `schemas`
+   - `utils` / `helpers`
+   - `constants` / `config`
+   - `routes` / `navigation` / `linking` / `deeplink` / `deep-link`
+   - `analytics` / `tracking` / `events` / `telemetry` / `instrumentation`
+   - feature folders containing screens, controllers, view models, forms, or API clients
 
-### 2. Read the existing business logic document
+   Use code search patterns such as:
 
-Read `docs/UBIQUITOUS_BUSINESS_LOGIC.md` if it exists.
+   ```text
+   throw new
+   return false
+   return null
+   if (
+   switch (
+   TODO|FIXME|NOTE|HACK|WORKAROUND|legacy|grandfather
+   MAX_|MIN_|DEFAULT_|LIMIT_|THRESHOLD_|GRACE_
+   track|analytics|event|screen|error|telemetry
+   route|path|deeplink|deepLink|linking|url|scheme
+   ```
 
-Merge forward instead of overwriting:
+4. Trace enforcement end to end. For each important rule, trace the path where possible:
 
-| Existing content status | Action |
-| --- | --- |
-| Still matches implementation | Preserve and refresh evidence if needed. |
-| More specific than new findings | Keep the specific version and add new supporting details. |
-| Contradicted by code | Record the discrepancy and cite the code evidence. |
-| No longer enforced | Move to `Retired Logic` only when the conversation or code explicitly supports retirement. |
-| Unverified but important | Keep it only if clearly marked as needing verification. |
+   ```text
+   User/API input
+     -> validation or schema rule
+     -> use case / service guard clause
+     -> persistence or external API call
+     -> UI/screen presentation
+     -> deeplink behavior, if applicable
+     -> analytics events, if applicable
+   ```
 
-### 3. Inspect the codebase for implemented rules
+   Document the concrete enforcement point, not just the call site. Guard clauses, thrown errors, validators, enum checks, and constants usually encode the real invariant.
 
-Prioritize searches in:
+5. Identify oddities, edge cases, and magic values. Actively look for:
+   - complex `if/else` or `switch` logic
+   - hardcoded IDs, dates, thresholds, status maps, and tenant-specific exceptions
+   - workarounds for third-party API limits
+   - legacy data handling and migration cutoffs
+   - domain constraints that feel counter-intuitive
+   - behavior that differs by platform, environment, app version, tenant, locale, or feature flag
+   - error states that are intentionally suppressed, transformed, or tracked differently
+   - analytics params that are conditionally included or renamed
 
-- `use-cases` / `usecases`
-- `services` / `handlers`
-- `domain`
-- `validators` / `schemas`
-- `utils` / `helpers`
-- `constants` / `config`
-- `routes` / `navigation` / `linking` / `deeplink` / `deep-link`
-- `analytics` / `tracking` / `events` / `telemetry` / `instrumentation`
-- feature folders containing screens, controllers, view models, forms, or API clients
+6. Extract deeplinks and route behavior when the codebase contains route/linking behavior or the conversation asks for it. Look for:
+   - app schemes, universal links, route paths, URL builders, navigation config, and link parsers
+   - required, optional, deprecated, and ignored params
+   - screen destinations and fallback behavior
+   - auth or permission gates
+   - error handling for malformed, expired, or unauthorized links
+   - analytics fired when a link is opened, rejected, or redirected
 
-Use code search patterns such as:
+   Treat deeplinks as product behavior. A route that silently redirects, drops a param, or requires a specific auth state is business logic.
 
-```text
-throw new
-return false
-return null
-if (
-switch (
-TODO|FIXME|NOTE|HACK|WORKAROUND|legacy|grandfather
-MAX_|MIN_|DEFAULT_|LIMIT_|THRESHOLD_|GRACE_
-track|analytics|event|screen|error|telemetry
-route|path|deeplink|deepLink|linking|url|scheme
-```
+7. Extract analytics instrumentation when the codebase contains analytics/tracking behavior or the conversation asks for it. Split analytics by event category:
 
-### 4. Trace enforcement end to end
+   | Category | What to document |
+   | --- | --- |
+   | Screen events | screen/view events, screen names, route or component source, required params, optional params, firing conditions |
+   | Error events | error names, error codes, failure surfaces, suppression rules, retry/fallback behavior, user-visible message mapping |
+   | Track events | action events, event names, required params, optional params, triggering user/system action, dedupe or throttling behavior |
 
-For each important rule, trace the path where possible:
+   For each event, document the source file and the condition that causes the event to fire. If event params are assembled across multiple helper functions, cite both the event call and the param builder.
 
-```text
-User/API input
-  -> validation or schema rule
-  -> use case / service guard clause
-  -> persistence or external API call
-  -> UI/screen presentation
-  -> deeplink behavior, if applicable
-  -> analytics events, if applicable
-```
+8. Categorize findings by bounded context or feature area such as Billing, Identity, Inventory, Scheduling, Eligibility, Onboarding, Notifications, Navigation, Deeplinks, or Analytics. When a rule spans multiple areas, place it in the context where the business decision lives and cross-reference related enforcement locations in the evidence table.
 
-Document the concrete enforcement point, not just the call site. Guard clauses, thrown errors, validators, enum checks, and constants usually encode the real invariant.
+9. Write or rewrite the document using the output contract below. Keep every section, even if some tables contain `None found` or `Needs verification` rows.
 
-### 5. Identify oddities, edge cases, and magic values
+10. Return a short inline summary with:
+    - the most critical rules found
+    - the weirdest oddities uncovered
+    - deeplinks or analytics coverage added
+    - discrepancies between user claims and actual code behavior
+    - any areas needing follow-up verification
 
-Actively look for:
-
-- complex `if/else` or `switch` logic
-- hardcoded IDs, dates, thresholds, status maps, and tenant-specific exceptions
-- workarounds for third-party API limits
-- legacy data handling and migration cutoffs
-- domain constraints that feel counter-intuitive
-- behavior that differs by platform, environment, app version, tenant, locale, or feature flag
-- error states that are intentionally suppressed, transformed, or tracked differently
-- analytics params that are conditionally included or renamed
-
-### 6. Extract deeplinks and route behavior
-
-Create a deeplink inventory when the codebase contains route/linking behavior or the conversation asks for it.
-
-Look for:
-
-- app schemes, universal links, route paths, URL builders, navigation config, and link parsers
-- required, optional, deprecated, and ignored params
-- screen destinations and fallback behavior
-- auth or permission gates
-- error handling for malformed, expired, or unauthorized links
-- analytics fired when a link is opened, rejected, or redirected
-
-Treat deeplinks as product behavior. A route that silently redirects, drops a param, or requires a specific auth state is business logic.
-
-### 7. Extract analytics instrumentation
-
-Create analytics inventories when the codebase contains analytics/tracking behavior or the conversation asks for it.
-
-Split analytics by event category:
-
-| Category | What to document |
-| --- | --- |
-| Screen events | screen/view events, screen names, route or component source, required params, optional params, firing conditions |
-| Error events | error names, error codes, failure surfaces, suppression rules, retry/fallback behavior, user-visible message mapping |
-| Track events | action events, event names, required params, optional params, triggering user/system action, dedupe or throttling behavior |
-
-For each event, document the source file and the condition that causes the event to fire. If event params are assembled across multiple helper functions, cite both the event call and the param builder.
-
-### 8. Categorize findings by bounded context or feature
-
-Group findings so they are discoverable by domain area such as Billing, Identity, Inventory, Scheduling, Eligibility, Onboarding, Notifications, Navigation, Deeplinks, or Analytics.
-
-When a rule spans multiple areas, place it in the context where the business decision lives and cross-reference related enforcement locations in the evidence table.
-
-### 9. Write or rewrite the document
-
-Ensure a `docs` directory exists in the project root. Write the file exactly here:
-
-```text
-docs/UBIQUITOUS_BUSINESS_LOGIC.md
-```
-
-Use the output structure below. Keep every section, even if some tables contain `None found` or `Needs verification` rows.
-
-### 10. Return a short inline summary
-
-After writing the file, return a short summary with:
-
-- the most critical rules found
-- the weirdest oddities uncovered
-- deeplinks or analytics coverage added
-- discrepancies between user claims and actual code behavior
-- any areas needing follow-up verification
-
-## Investigation Heuristics
+### Investigation heuristics
 
 - Start at guard clauses and thrown errors. These usually encode the real invariants.
 - Read validation schemas for format rules, bounds, enums, and conditional requirements.
@@ -193,13 +148,11 @@ After writing the file, return a short summary with:
 - For deeplinks, test route matching mentally from URL shape to destination screen and fallback behavior.
 - For analytics, verify both the event name and the params. A correct event with wrong or missing params is incomplete instrumentation documentation.
 
-## Visual Documentation Patterns
+### Visual documentation patterns
 
 Use these patterns to make the output easier to scan while preserving detail.
 
-### Context Map
-
-Use a context map near the top of the generated document when multiple areas interact:
+Context map, near the top of the generated document when multiple areas interact:
 
 ```text
 [Eligibility] -> gates -> [Checkout]
@@ -208,17 +161,13 @@ Use a context map near the top of the generated document when multiple areas int
 [Errors] -> maps to -> [User-facing Messages]
 ```
 
-### Rule Lifecycle
-
-Use this compact shape for rules that move through multiple layers:
+Rule lifecycle, for rules that move through multiple layers:
 
 ```text
 Input constraint -> validator -> service guard -> persisted state -> UI outcome -> analytics event
 ```
 
-### Confidence Labels
-
-Use these labels consistently:
+Confidence labels, used consistently:
 
 | Status | Meaning |
 | --- | --- |
@@ -228,19 +177,28 @@ Use these labels consistently:
 | Needs verification | Important claim exists but code evidence was not found. |
 | Retired | Evidence shows the system no longer enforces this logic. |
 
-## Writing Rules
+## Constraints
 
+- Preserve existing knowledge. Merge forward from the existing document instead of replacing it wholesale.
+- Ground every claim in code. Include file names, functions, constants, schemas, route names, event names, or guard clauses wherever possible.
+- Favor visual structure. Use diagrams, maps, checklists, matrices, and compact tables so readers can understand the system quickly.
+- Separate product truth from implementation weirdness. Intended behavior, hacks, legacy support, vendor workarounds, and retired rules should not be mixed together.
+- Be explicit about uncertainty. Mark behavior as `Confirmed`, `Partially confirmed`, `Contradicted`, or `Needs verification` based on the evidence found.
+- Do not remove details. If information is still valid, keep it. If the code contradicts it, move it to discrepancies or retired logic only when evidence supports that change.
 - Be precise. State the rule clearly, then explain why it exists when evidence supports it.
-- Separate intended domain behavior from hacks, legacy accommodations, and technical workarounds.
-- Ground every claim in codebase evidence. Include file names or function names in relevant table cells.
 - Focus on business logic, not framework or infrastructure choices.
 - Be honest about weirdness. If the code contains tenant-specific hacks or legacy cutoffs, document them directly.
 - Keep retired logic limited to rules the system no longer enforces.
 - Keep visual aids factual. Do not invent relationships just to make the document look complete.
 - Prefer concise table rows with exact evidence over long prose paragraphs.
-- Preserve all still-valid details from the existing document, even when reorganizing sections.
 
-## Output Structure
+## Failure handling
+
+- A claimed rule has no code evidence: keep it only when important, labeled `Needs verification`; never present it as `Confirmed`.
+- The conversation says the code should behave differently than it does: record the gap in `Discrepancies & Open Questions`; do not document the wished-for behavior as current behavior.
+- No deeplink or analytics infrastructure exists: keep the sections with `None found` rows rather than omitting them.
+
+## Output contract
 
 Write `docs/UBIQUITOUS_BUSINESS_LOGIC.md` with exactly this structure:
 
@@ -377,7 +335,7 @@ This document captures business behavior as implemented in code, not just intend
 | **Manual Invoice Approval** | Removed. All invoices are now auto-charged. | Code was stripped from `InvoiceService` in PR #402. | Retired |
 ```
 
-## Final Checks
+### Final checks
 
 Re-read the generated document before finishing.
 

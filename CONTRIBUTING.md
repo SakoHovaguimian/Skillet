@@ -5,7 +5,8 @@ Skillet is intentionally simple: each installable skill lives in one folder unde
 
 ## Add a skill
 
-1. Create `skills/<skill-name>/SKILL.md`.
+1. Create `skills/<skill-name>/SKILL.md` following the section spine and rules in
+   [docs/SKILL_AUTHORING_STANDARD.md](docs/SKILL_AUTHORING_STANDARD.md).
 2. Use lowercase letters, digits, and hyphens for the folder and frontmatter name.
 3. Add concise `name` and `description` frontmatter. The description should say
    what the skill does and when an agent should use it.

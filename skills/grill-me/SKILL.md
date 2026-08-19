@@ -12,32 +12,21 @@ Turn an uncertain proposal into a decision-complete, mutually understood plan be
 
 The finished plan should make clear:
 
-* what is being achieved
-* how success will be measured
-* which decisions were made and why
-* which facts are supported by evidence
-* which assumptions remain
-* what is included and excluded
-* which risks are accepted
-* what happens when things fail
-* what action is authorized next
+- what is being achieved
+- how success will be measured
+- which decisions were made and why
+- which facts are supported by evidence
+- which assumptions remain
+- what is included and excluded
+- which risks are accepted
+- what happens when things fail
+- what action is authorized next
 
 Grilling is not brainstorming and it is not passive clarification. It is a relentless interview that exposes ambiguity, dependency gaps, hidden scope, contradictory goals, and unhandled failure modes.
 
-## Core Rules
+## Inputs and preconditions
 
-1. Build a decision tree before driving the interview.
-2. Ask questions in dependency-aware rounds, not one at a time.
-3. In each round, ask the entire currently unblocked frontier.
-4. Never ask the user for a fact the available environment can establish.
-5. Give a recommended answer for every question.
-6. Let each answer reshape the tree and unlock the next frontier.
-7. Do not implement, modify, or execute the plan until the user explicitly confirms shared understanding.
-8. Stop when the plan is actionable, not when every theoretical detail has been discussed.
-
-## Establish Ground Truth
-
-Before asking questions:
+A proposal, plan, design, or decision to stress-test, and a user available to answer interview rounds. Before asking anything, establish ground truth:
 
 1. Read all applicable instructions and user-provided artifacts.
 2. Inspect relevant code, documentation, configuration, interfaces, schemas, tests, history, analytics, operational evidence, and existing behavior.
@@ -49,24 +38,26 @@ Do not treat existing behavior as inherently correct.
 
 When sources disagree, record:
 
-* the conflicting sources
-* what each source implies
-* the consequence of choosing either interpretation
-* the decision required to resolve the conflict
+- the conflicting sources
+- what each source implies
+- the consequence of choosing either interpretation
+- the decision required to resolve the conflict
 
-## Build the Decision Tree
+## Workflow
+
+### Build the decision tree
 
 Represent the proposal as a tree of material decisions.
 
 Each node should contain:
 
-* `Decision` — the choice that must be resolved
-* `Why it matters` — what changes based on the answer
-* `Prerequisites` — parent decisions or facts required before it can be answered
-* `Dependents` — downstream decisions affected by it
-* `State` — its current resolution state
-* `Resolution` — the evidence, answer, assumption, or deferral that closed it
-* `Confidence` — when the resolution is inferred rather than explicit
+- `Decision` — the choice that must be resolved
+- `Why it matters` — what changes based on the answer
+- `Prerequisites` — parent decisions or facts required before it can be answered
+- `Dependents` — downstream decisions affected by it
+- `State` — its current resolution state
+- `Resolution` — the evidence, answer, assumption, or deferral that closed it
+- `Confidence` — when the resolution is inferred rather than explicit
 
 The tree should capture real dependencies.
 
@@ -90,22 +81,22 @@ Objective
 
 Do not force every topic into a strict hierarchy when dependencies cross branches. Record cross-dependencies explicitly.
 
-## Decision States
+### Decision states
 
 Every material decision must have one state:
 
-* `Unresolved` — known decision that has not been answered
-* `Researching` — discoverable fact is being investigated
-* `Evidence` — resolved directly from available evidence
-* `Decided` — explicitly chosen by the user
-* `Assumed` — provisionally chosen, with consequence and confidence
-* `Deferred` — intentionally postponed, with an owner or trigger
-* `Out of scope` — deliberately excluded
-* `Blocked` — cannot progress without missing authority or information
+- `Unresolved` — known decision that has not been answered
+- `Researching` — discoverable fact is being investigated
+- `Evidence` — resolved directly from available evidence
+- `Decided` — explicitly chosen by the user
+- `Assumed` — provisionally chosen, with consequence and confidence
+- `Deferred` — intentionally postponed, with an owner or trigger
+- `Out of scope` — deliberately excluded
+- `Blocked` — cannot progress without missing authority or information
 
 A node is ready for questioning only when all of its prerequisites are settled.
 
-## Determine the Frontier
+### Determine the frontier
 
 The frontier is the complete set of unresolved decisions that can be answered now without guessing about unresolved prerequisites.
 
@@ -123,55 +114,44 @@ Do not serialize independent questions unnecessarily. If five decisions are read
 
 Keep rounds focused enough that the user can answer clearly. When the frontier is unusually large, group it by closely related branches without hiding dependencies.
 
-## Research Without Blocking the Interview
+### Research without blocking the interview
 
 When a question can be settled from the environment, investigate it instead of asking the user.
 
 Examples include:
 
-* existing code behavior
-* established naming or architecture conventions
-* schema and API contracts
-* current configuration
-* platform requirements
-* test coverage
-* documented product rules
-* operational limits
-* compatibility constraints
-* historical implementation decisions
+- existing code behavior
+- established naming or architecture conventions
+- schema and API contracts
+- current configuration
+- platform requirements
+- test coverage
+- documented product rules
+- operational limits
+- compatibility constraints
+- historical implementation decisions
 
 Independent research must not block unrelated user decisions.
 
 When the environment supports parallel research agents, delegate independent investigations to them. While that research is in progress:
 
-* continue asking frontier questions that do not depend on its result
-* hold only the downstream branches that require that evidence
-* integrate the result into the next tree update
-* surface uncertainty when the research is incomplete or conflicting
+- continue asking frontier questions that do not depend on its result
+- hold only the downstream branches that require that evidence
+- integrate the result into the next tree update
+- surface uncertainty when the research is incomplete or conflicting
 
 Never describe unavailable or unfinished research as established fact.
 
-## Start the Interview
+### Start the interview
 
 Begin by providing:
 
-### Current Understanding
+1. **Current understanding.** Restate the proposal in one to three sentences without expanding its scope.
+2. **Objective.** State the apparent objective and measurable success criteria. Clearly label anything inferred.
+3. **Decision map.** Summarize the major branches of the current decision tree.
+4. **Round 1.** Ask every decision on the current frontier.
 
-Restate the proposal in one to three sentences without expanding its scope.
-
-### Objective
-
-State the apparent objective and measurable success criteria. Clearly label anything inferred.
-
-### Decision Map
-
-Summarize the major branches of the current decision tree.
-
-### Round 1
-
-Ask every decision on the current frontier.
-
-## Question Format
+### Question format
 
 Each question must resolve one decision.
 
@@ -186,18 +166,18 @@ Main trade-off: [Only include when it could materially change the choice.]
 
 Rules:
 
-* Ask concrete questions the user can directly answer.
-* Include mutually exclusive options when useful.
-* Do not combine separate decisions into one question.
-* Do not ask abstract questions such as “What do you want?” when concrete choices can be named.
-* Do not repeat questions already answered by evidence or prior responses.
-* Recommend one answer rather than neutrally listing possibilities.
-* Prefer the smallest option that satisfies the objective while preserving future change.
-* Let strong repository or product evidence outweigh generic convention.
-* State uncertainty instead of inventing precision.
-* Use a scenario or counterexample when vague language hides an edge case.
+- Ask concrete questions the user can directly answer.
+- Include mutually exclusive options when useful.
+- Do not combine separate decisions into one question.
+- Do not ask abstract questions such as "What do you want?" when concrete choices can be named.
+- Do not repeat questions already answered by evidence or prior responses.
+- Recommend one answer rather than neutrally listing possibilities.
+- Prefer the smallest option that satisfies the objective while preserving future change.
+- Let strong repository or product evidence outweigh generic convention.
+- State uncertainty instead of inventing precision.
+- Use a scenario or counterexample when vague language hides an edge case.
 
-## Process Each Round
+### Process each round
 
 After the user responds:
 
@@ -214,30 +194,30 @@ After the user responds:
 
 Show only meaningful changes between rounds:
 
-* decisions closed
-* branches added or removed
-* conflicts discovered
-* assumptions introduced
-* research findings that changed the plan
-* the next frontier
+- decisions closed
+- branches added or removed
+- conflicts discovered
+- assumptions introduced
+- research findings that changed the plan
+- the next frontier
 
 Do not repeat the entire ledger after every response.
 
-## Challenge Weak Answers
+### Challenge weak answers
 
 Do not silently accept answers that fail to resolve the decision.
 
 Challenge answers that are:
 
-* vague
-* internally inconsistent
-* incompatible with the stated objective
-* dependent on an undefined term
-* impossible under known constraints
-* missing ownership
-* missing failure behavior
-* based on an unsupported assumption
-* broader or narrower than the claimed scope
+- vague
+- internally inconsistent
+- incompatible with the stated objective
+- dependent on an undefined term
+- impossible under known constraints
+- missing ownership
+- missing failure behavior
+- based on an unsupported assumption
+- broader or narrower than the claimed scope
 
 State:
 
@@ -248,27 +228,27 @@ State:
 
 When appropriate, offer a recommended correction rather than merely pointing out the problem.
 
-## Detect Hidden Conflicts
+### Detect hidden conflicts
 
 Surface conflicts as soon as they become visible.
 
 Look specifically for:
 
-* incompatible goals or success metrics
-* unclear users, actors, or ownership boundaries
-* terminology that changes meaning across branches
-* authorization and permission gaps
-* contract or schema ambiguity
-* missing state transitions or lifecycle behavior
-* unclear source of truth
-* concurrency and conflict-resolution gaps
-* missing cancellation, retry, timeout, idempotency, or recovery behavior
-* destructive operations without safeguards
-* privacy, security, accessibility, performance, or compliance risks
-* migration and backward-compatibility omissions
-* rollout without observability or rollback
-* edge cases that contradict the happy path
-* scope claims that understate the dependency footprint
+- incompatible goals or success metrics
+- unclear users, actors, or ownership boundaries
+- terminology that changes meaning across branches
+- authorization and permission gaps
+- contract or schema ambiguity
+- missing state transitions or lifecycle behavior
+- unclear source of truth
+- concurrency and conflict-resolution gaps
+- missing cancellation, retry, timeout, idempotency, or recovery behavior
+- destructive operations without safeguards
+- privacy, security, accessibility, performance, or compliance risks
+- migration and backward-compatibility omissions
+- rollout without observability or rollback
+- edge cases that contradict the happy path
+- scope claims that understate the dependency footprint
 
 For each conflict, provide:
 
@@ -279,7 +259,7 @@ Consequence: [What breaks or remains ambiguous.]
 Recommended resolution: [Closest viable answer.]
 ```
 
-## Decision Priority
+### Decision priority
 
 Prioritize branches in this order when constructing the tree and recommendations:
 
@@ -296,7 +276,7 @@ Prioritize branches in this order when constructing the tree and recommendations
 
 Skip categories that do not materially apply.
 
-## Maintain the Decision Ledger
+### Maintain the decision ledger
 
 Keep a compact internal ledger throughout the interview.
 
@@ -315,14 +295,14 @@ During the interview, show only ledger changes.
 
 At completion, show the full material ledger grouped into:
 
-* evidence-backed facts
-* explicit decisions
-* accepted assumptions
-* deferred decisions
-* out-of-scope branches
-* remaining risks
+- evidence-backed facts
+- explicit decisions
+- accepted assumptions
+- deferred decisions
+- out-of-scope branches
+- remaining risks
 
-## Shared-Understanding Gate
+### Shared-understanding gate
 
 Do not treat the interview as complete merely because all questions have answers.
 
@@ -336,67 +316,59 @@ Before requesting confirmation:
 6. Confirm that no answer relies on an unresolved prerequisite.
 7. Confirm that the proposed next action matches the authority the user has granted.
 
-Then present a shared-understanding summary.
+Then present the final shared-understanding summary defined in the output contract.
 
-## Final Shared-Understanding Summary
+## Constraints
 
-Return:
+1. Build a decision tree before driving the interview.
+2. Ask questions in dependency-aware rounds, not one at a time.
+3. In each round, ask the entire currently unblocked frontier.
+4. Never ask the user for a fact the available environment can establish.
+5. Give a recommended answer for every question.
+6. Let each answer reshape the tree and unlock the next frontier.
+7. Do not implement, modify, or execute the plan until the user explicitly confirms shared understanding.
+8. Stop when the plan is actionable, not when every theoretical detail has been discussed.
 
-### Objective and Success
-
-The intended outcome and measurable success criteria.
-
-### Final Design
-
-A concise explanation of how the chosen plan works.
-
-### Decisions and Evidence
-
-Every material decision, its resolution, and the supporting evidence or user answer.
-
-### Assumptions
-
-Every remaining assumption, its consequence, and confidence.
-
-### Scope
-
-What is included.
-
-### Non-Goals
-
-What is deliberately excluded.
-
-### Deferred Decisions
-
-What remains postponed, who owns it, and what triggers reconsideration.
-
-### Risks and Recovery
-
-Remaining risks, detection methods, rollback, retry, migration, or recovery paths.
-
-### Next Action
-
-The first concrete action that would follow confirmation.
-
-### Confirmation
-
-Ask:
-
-> Does this accurately represent our shared understanding, or is any decision, assumption, scope boundary, or risk still wrong or incomplete?
-
-## Writing hygiene
-
-When this skill is used standalone, invoke `$unslop` once after each complete user-facing interview artifact is drafted, including a round, conflict record, ledger update, or final shared-understanding summary. If a parent workflow owns the final artifact, let that outermost workflow make the single `$unslop` pass instead of running it twice.
-
-Preserve decision-state labels, code, paths, symbols, commands, quoted user answers, evidence anchors, and the decision structure. `$unslop` may improve prose, but it must not change the decision, introduce scope, or weaken the authorization gate.
-
-## Authorization Gate
+### Authorization gate
 
 Do not implement, edit files, generate production artifacts, execute commands, create tickets, or otherwise act on the plan until the user explicitly confirms the shared understanding.
 
 Confirmation of the plan authorizes only the next action when:
 
-* the user already requested implementation as part of the original task, or
-* the user explicitly authorizes implementation after reviewing the summary
+- the user already requested implementation as part of the original task, or
+- the user explicitly authorizes implementation after reviewing the summary
 
 Otherwise, return the decision-complete plan without implying that execution has been approved.
+
+## Composition
+
+<interface>
+| Invokes | When | Carries in | Expects back | If unavailable |
+| --- | --- | --- | --- | --- |
+| `$unslop` | Once per complete user-facing interview artifact (a round, conflict record, ledger update, or final summary), only when this skill is used standalone | The complete drafted artifact | The prose-improved artifact with decision structure intact | Skip the pass and deliver the artifact unchanged |
+</interface>
+
+Invoke `$unslop` once on the complete user-facing artifact after its technical content is final, unless a parent workflow owns the final artifact, in which case the outermost workflow makes the single pass. `$unslop` may improve prose but must not change technical meaning: preserve code, paths, symbols, commands, measurements, quoted decisions, evidence anchors, classification labels, and document structure. If `$unslop` is unavailable, deliver the artifact unchanged and note the skipped pass. In this skill, the pass must also not change any decision, introduce scope, or weaken the authorization gate.
+
+## Failure handling
+
+- A material decision is `Blocked` on missing authority or information: stop, report exactly what is missing and who can supply it, and never substitute an assumption for missing authority.
+- Research is incomplete or conflicting at summary time: present the conflict record and mark the affected branches; do not present unfinished research as established fact.
+- The user stops responding mid-interview: deliver the current ledger with every open decision labeled, so the interview can resume without loss.
+
+## Output contract
+
+The final shared-understanding summary contains, in order:
+
+1. **Objective and success.** The intended outcome and measurable success criteria.
+2. **Final design.** A concise explanation of how the chosen plan works.
+3. **Decisions and evidence.** Every material decision, its resolution, and the supporting evidence or user answer.
+4. **Assumptions.** Every remaining assumption, its consequence, and confidence.
+5. **Scope.** What is included.
+6. **Non-goals.** What is deliberately excluded.
+7. **Deferred decisions.** What remains postponed, who owns it, and what triggers reconsideration.
+8. **Risks and recovery.** Remaining risks, detection methods, rollback, retry, migration, or recovery paths.
+9. **Next action.** The first concrete action that would follow confirmation.
+10. **Confirmation.** Ask:
+
+> Does this accurately represent our shared understanding, or is any decision, assumption, scope boundary, or risk still wrong or incomplete?

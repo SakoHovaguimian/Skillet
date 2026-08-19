@@ -1,18 +1,24 @@
 ---
 name: conversational-planning-grill-me
-description: Produce an implementation-ready plan for a repository or technical/product change through evidence-first discovery and a focused conversational decision interview. Use before coding when requirements, boundaries, risks, or trade-offs need to be resolved. This stack-neutral skill does not depend on iOS, SwiftUI, Rune, or ubiquitous-component catalogs.
+description: Produce an implementation-ready plan for a repository or technical/product change through evidence-first discovery and a focused conversational decision interview. Use before coding when requirements, boundaries, risks, or trade-offs need to be resolved. Do not use for iOS-specific planning when `$ios-conversational-planning-grill-me` applies; this stack-neutral skill does not depend on iOS, SwiftUI, Rune, or ubiquitous-component catalogs.
 disable-model-invocation: true
 ---
 
-# Conversational planning + grill me
+# Conversational Planning + Grill Me
 
 ## Outcome
 
 Turn a rough request into a current, evidence-backed implementation plan that another agent can execute without rediscovering product intent or making material design choices.
 
-Compose `$grill-me` as the interview engine. Do not copy or weaken its decision tree, frontier questions, decision ledger, conflict handling, or completion gate.
+This skill owns discovery, the planning model, the executable plan, and the approval gate. It composes `$grill-me` as the interview engine and must not copy or weaken that engine's decision tree, frontier questions, decision ledger, conflict handling, or completion gate.
 
-## Phase 1: Discover before interviewing
+## Inputs and preconditions
+
+A change request and access to the repository or artifacts it concerns. If the request names no repository and none is available, plan from the provided artifacts and label every unverifiable claim as an assumption.
+
+## Workflow
+
+### 1. Discover before interviewing
 
 Read, in order when present:
 
@@ -26,7 +32,7 @@ Use `rg` and targeted reads. Avoid broad repository dumps. Follow imports and ca
 
 Do not require or invent iOS, SwiftUI, Rune, or ubiquitous-component guidance. Read repository-specific conventions when the project actually provides and needs them, but keep this workflow usable for any stack.
 
-## Phase 2: Build the initial planning model
+### 2. Build the initial planning model
 
 Before the first question, summarize:
 
@@ -41,13 +47,51 @@ Label claims as `Evidence`, `Inference`, or `Open decision`. Do not present infe
 
 Read [references/plan-readiness.md](references/plan-readiness.md) once a repository-backed plan is confirmed. Apply only the lenses relevant to the task.
 
-## Phase 3: Run `$grill-me`
+### 3. Run the interview
 
 Invoke `$grill-me` and follow its interview rules exactly. Let repository evidence settle discoverable facts, ask the user only for intent or authority, and keep the interview open until the decision-complete shared-understanding gate is satisfied.
 
-## Phase 4: Produce the executable plan
+### 4. Produce the executable plan
 
-Make the final plan proportionate to risk and include:
+Make the final plan proportionate to risk, using the output contract below. Use paths and symbols as anchors when known. Mark speculative file paths as likely rather than guaranteed.
+
+### 5. Approval gate
+
+Restate the complete current plan once after all material branches close. Then stop and request explicit approval of that exact plan.
+
+### 6. Implementation handoff
+
+After approval, use the most specific available implementation skill for the repository or execute the approved plan directly. Carry the final plan, decision ledger, constraints, verification limits, and unresolved risks into that handoff.
+
+Never silently reopen an approved product decision during implementation. Surface new contradictory evidence instead.
+
+## Constraints
+
+- Do not treat agreement with an earlier draft, generic enthusiasm, or a request to keep planning as implementation approval.
+- Do not edit implementation files during this skill unless the user explicitly changes the task.
+- Do not present inference as fact; every claim keeps its `Evidence`, `Inference`, or `Open decision` label until resolved.
+
+## Composition
+
+<interface>
+| Invokes | When | Carries in | Expects back | If unavailable |
+| --- | --- | --- | --- | --- |
+| `$grill-me` | Step 3, after the initial planning model exists | The planning model, evidence anchors, constraints, and open decisions | A decision-complete ledger and confirmed shared understanding | Run a reduced interview inline, state that the full engine was unavailable, and keep the approval gate |
+| `$unslop` | Once, on the complete planning artifact, only when no parent workflow owns the final artifact | The complete drafted plan | The prose-improved plan with structure intact | Skip the pass and deliver the plan unchanged |
+| Repository implementation skill (most specific available) | After explicit approval, at handoff | Final plan, decision ledger, constraints, verification limits, unresolved risks | Implementation consistent with the approved plan | Execute the approved plan directly |
+</interface>
+
+Invoke `$unslop` once on the complete user-facing artifact after its technical content is final, unless a parent workflow owns the final artifact, in which case the outermost workflow makes the single pass. `$unslop` may improve prose but must not change technical meaning: preserve code, paths, symbols, commands, measurements, quoted decisions, evidence anchors, classification labels, and document structure. If `$unslop` is unavailable, deliver the artifact unchanged and note the skipped pass. In this skill, the pass must also not introduce decisions or weaken the approval gate.
+
+## Failure handling
+
+- Evidence contradicts the user's stated intent: surface the conflict as a `$grill-me` conflict record; never silently prefer either side.
+- Discovery cannot reach needed code or documents: mark the affected plan branches as assumption-based and say what access would resolve them.
+- The user requests implementation before the gate: restate the gate, present what remains unresolved, and proceed only on explicit approval of the current plan.
+
+## Output contract
+
+The final plan includes, proportionate to risk:
 
 - objective, success criteria, and non-goals
 - chosen approach and rejected alternatives that matter
@@ -58,23 +102,3 @@ Make the final plan proportionate to risk and include:
 - verification strategy consistent with repository instructions and user authorization
 - documentation updates required after implementation
 - decision ledger, assumptions, deferrals, and remaining risks
-
-Use paths and symbols as anchors when known. Mark speculative file paths as likely rather than guaranteed.
-
-## Approval gate
-
-Restate the complete current plan once after all material branches close. Then stop and request explicit approval of that exact plan.
-
-Do not treat agreement with an earlier draft, generic enthusiasm, or a request to keep planning as implementation approval. Do not edit implementation files during this skill unless the user explicitly changes the task.
-
-## Writing hygiene
-
-For a standalone invocation, invoke `$unslop` once on the complete user-facing planning artifact after its technical content is final. If a parent workflow owns the final artifact, let the outermost workflow make the single `$unslop` pass instead of running it twice.
-
-Preserve code, paths, symbols, commands, quoted user decisions, evidence anchors, decision-state labels, and plan structure. `$unslop` may improve prose, but it must not change technical meaning, introduce decisions, or weaken the approval gate.
-
-## Implementation handoff
-
-After approval, use the most specific available implementation skill for the repository or execute the approved plan directly. Carry the final plan, decision ledger, constraints, verification limits, and unresolved risks into that handoff.
-
-Never silently reopen an approved product decision during implementation. Surface new contradictory evidence instead.

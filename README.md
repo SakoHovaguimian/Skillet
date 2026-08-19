@@ -27,6 +27,8 @@ skillet/
 ├── .github/
 │   ├── CODEOWNERS                  Default review ownership
 │   └── pull_request_template.md    Consistent review checklist
+├── docs/
+│   └── SKILL_AUTHORING_STANDARD.md Canonical SKILL.md template and invocation protocol
 ├── skills/
 │   └── <skill-name>/
 │       ├── SKILL.md                Required skill entry point
@@ -49,7 +51,6 @@ and assets remain optional and should be added only when the skill genuinely use
 
 | Skill | Purpose |
 | --- | --- |
-| `commit-aware-ubiquitous-docs-maintainer` | Updates domain documentation only when recent commits changed domain meaning. |
 | `conversational-planning-grill-me` | Combines stack-neutral repository discovery with a decision-complete planning interview. |
 | `fix-root-causes` | Debugs failures by fixing underlying causes instead of symptoms. |
 | `grill-me` | Pressure-tests plans and resolves requirements before action. |
@@ -78,6 +79,9 @@ and assets remain optional and should be added only when the skill genuinely use
 ## Design choices
 
 - Skills are flat under `skills/` so discovery is obvious and no custom indexing is needed.
+- Every `SKILL.md` follows the section spine and invocation protocol in
+  [docs/SKILL_AUTHORING_STANDARD.md](docs/SKILL_AUTHORING_STANDARD.md); shared behavior is reused
+  through `$skill-name` composition, never through runtime includes between skill folders.
 - The folder name and frontmatter `name` must match, making links, installs, and invocation predictable.
 - Every skill is explicit-only in both agents: `agents/openai.yaml` sets
   `allow_implicit_invocation: false` for Codex, and `SKILL.md` sets

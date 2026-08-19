@@ -1,23 +1,20 @@
 ---
 name: ubiquitous-language
-description: Build or update a DDD-style ubiquitous language glossary by analyzing the current conversation and codebase. Use when Codex needs to define domain terms, group language by bounded context, compare domain language against implementation naming, identify ambiguities or synonym drift, document actors, relationships, lifecycle states, commands, events, and write or refresh `docs/UBIQUITOUS_LANGUAGE.md` grounded in real model usage.
+description: Build or update a DDD-style ubiquitous language glossary by analyzing the current conversation and codebase, writing `docs/UBIQUITOUS_LANGUAGE.md` grounded in real model usage. Use when domain terms need defining, language should be grouped by bounded context, domain language must be compared against implementation naming, or ambiguities, synonym drift, actors, relationships, lifecycle states, commands, and events need documenting. Do not use for business rules and invariants; use `$ubiquitous-business-logic` for those.
 disable-model-invocation: true
 ---
 
 # Ubiquitous Language
 
-Build and maintain a DDD-style glossary that is grounded in both domain discussion and implementation reality. The goal is to make the team's language easier to understand, easier to search, and harder to misuse.
+## Outcome
 
-## Operating Principles
+A DDD-style glossary at `docs/UBIQUITOUS_LANGUAGE.md`, grounded in both domain discussion and implementation reality, that makes the team's language easier to understand, easier to search, and harder to misuse.
 
-- Preserve information. Merge forward from any existing glossary instead of replacing it wholesale.
-- Make language visual and navigable. Prefer maps, tables, lifecycle flows, and relationship bullets over long prose.
-- Be opinionated. Pick canonical terms when evidence supports a recommendation.
-- Be honest about drift. Flag overloaded terms, aliases, UI/backend mismatch, and implementation names that mislead domain discussion.
-- Separate domain language from technical wrappers. DTOs, schemas, mappers, API responses, and UI helper objects can be evidence, but they are not automatically domain terms.
-- Ground claims in codebase evidence. Include files, types, functions, routes, screens, or tests wherever possible.
+## Inputs and preconditions
 
-## Workflow Map
+The current conversation's domain language, the existing `docs/UBIQUITOUS_LANGUAGE.md` when present, and the codebase. Ensure a `docs` directory exists in the project root before writing, creating it if needed.
+
+## Workflow
 
 ```text
 Conversation language
@@ -36,8 +33,6 @@ Canonical glossary + maps
         ↓
 Evidence verification + summary
 ```
-
-## Workflow
 
 1. Scan the current conversation.
    Extract domain nouns, verbs, actors, states, workflows, overloaded terms, synonym clusters, and phrases the user uses with strong intent. Capture how the user talks about the domain before checking whether the code agrees.
@@ -92,15 +87,14 @@ Evidence verification + summary
 8. Map relationships, states, and domain events.
    Describe how the core terms relate, which actions or events drive state changes, and which lifecycle states matter. Use simple visual flows when useful.
 
-9. Write or rewrite `docs/UBIQUITOUS_LANGUAGE.md`.
-   Ensure a `docs` directory exists in the root of the project, creating it if needed. Use the exact output structure below. Preserve prior decisions when they still fit; move deprecated language to the retired section.
+9. Write or rewrite `docs/UBIQUITOUS_LANGUAGE.md` using the output contract below. Preserve prior decisions when they still fit; move deprecated language to the retired section.
 
 10. Return a short inline summary after writing the file.
     Include terminology clusters found, biggest ambiguities, strongest canonical recommendations, and whether codebase naming and domain language are aligned.
 
-## Investigation Heuristics
+### Investigation heuristics
 
-### Start Points
+Start points:
 
 - Start from model names; they usually reveal the strongest candidate nouns.
 - Use use-case, service, and repository names to find verbs, actions, and ownership boundaries.
@@ -108,9 +102,7 @@ Evidence verification + summary
 - Read enum definitions, state machines, reducers, workflow steps, and validation schemas for lifecycle vocabulary.
 - Check tests and fixtures for realistic domain examples and expected terminology.
 
-### Evidence Weighting
-
-Use this evidence hierarchy when deciding whether a term is canonical:
+Evidence weighting when deciding whether a term is canonical:
 
 | Evidence type | Weight | Why it matters |
 | --- | --- | --- |
@@ -122,9 +114,7 @@ Use this evidence hierarchy when deciding whether a term is canonical:
 | Helpers/mappers/wrappers | Low | Often technical, not domain language. |
 | Comments/TODOs/HACKs | Contextual | Useful for intent and known naming problems. |
 
-### Drift Signals
-
-Treat these as strong signals that the glossary needs a note or recommendation:
+Drift signals that demand a note or recommendation:
 
 - A model has one name but the UI consistently uses another.
 - A term means different things in different bounded contexts.
@@ -132,13 +122,11 @@ Treat these as strong signals that the glossary needs a note or recommendation:
 - A state enum contains vague values such as `active`, `inactive`, `done`, `pending`, or `failed` without domain-specific explanation.
 - A technical object such as `Payload`, `DTO`, `Response`, `Config`, or `Wrapper` is used as if it were a domain concept.
 
-## Visual Documentation Rules
+### Visual documentation rules
 
 Use visual aids in markdown when they make the glossary easier to understand. Keep them text-based so the file remains portable.
 
-### Context Map
-
-Add a context map near the top when there are multiple bounded contexts:
+Context map, near the top when there are multiple bounded contexts:
 
 ```text
 [Identity] User authenticates → owns → [Account]
@@ -146,43 +134,47 @@ Add a context map near the top when there are multiple bounded contexts:
 [Inventory] Product is allocated → into → [Order]
 ```
 
-### Lifecycle Flow
-
-Use lifecycle flows for terms with important states:
+Lifecycle flows for terms with important states:
 
 ```text
 OrderDraft → OrderPlaced → OrderFulfilled → OrderCancelled
 ```
 
-### Relationship Bullets
-
-Prefer precise relationship bullets:
+Precise relationship bullets:
 
 - A **Customer** can place many **Orders**.
 - An **Order** can produce zero or more **Invoices** until fulfillment is confirmed.
 - An **Invoice** belongs to exactly one **Customer**.
 
-### Naming Drift Notes
-
-Use explicit callouts for confusing terms:
+Explicit callouts for confusing terms:
 
 ```md
 > **Naming drift:** The UI says "Bill", but backend services use `Invoice`. Use **Invoice** as the canonical term and reserve "bill" only when quoting legacy UI copy.
 ```
 
-## Writing Rules
+## Constraints
 
+- Preserve information. Merge forward from any existing glossary instead of replacing it wholesale.
+- Make language visual and navigable. Prefer maps, tables, lifecycle flows, and relationship bullets over long prose.
+- Be opinionated. Pick canonical terms when evidence supports a recommendation.
+- Be honest about drift. Flag overloaded terms, aliases, UI/backend mismatch, and implementation names that mislead domain discussion.
+- Separate domain language from technical wrappers. DTOs, schemas, mappers, API responses, and UI helper objects can be evidence, but they are not automatically domain terms.
+- Ground claims in codebase evidence. Include files, types, functions, routes, screens, or tests wherever possible.
 - Keep definitions tight: one sentence that says what the thing is, not how the code implements it.
 - Include only domain-relevant concepts.
 - Define the same word separately when it means different things in different bounded contexts.
-- Distinguish domain concepts from transport objects, technical wrappers, and UI helper types.
 - Flag contested or misleading names directly and recommend better canonical terms.
 - Rewrite the example dialogue so it resolves a real ambiguity or clarifies a real relationship found in the codebase.
 - Use evidence status labels: `Confirmed`, `Likely`, `Conflicting`, `Missing evidence`, or `Retired`.
 - Do not invent business meaning from file names alone. File names are leads, not proof.
 - If the conversation and code disagree, document both and recommend the term that best supports domain clarity.
 
-## Output Structure
+## Failure handling
+
+- No existing glossary and a sparse codebase: build the smallest defensible glossary from what exists and mark thin areas `Missing evidence` rather than padding them.
+- Conversation and code disagree on a term: document both readings with evidence and recommend one; never silently drop either.
+
+## Output contract
 
 Write `docs/UBIQUITOUS_LANGUAGE.md` with exactly this structure:
 
@@ -276,7 +268,7 @@ OrderDraft → OrderPlaced → OrderFulfilled → OrderCancelled
 | **Bill** | **Invoice** | "Bill" was used inconsistently in the UI. Standardized on Invoice to match the `InvoicingService`. | `InvoicingService`, legacy copy |
 ```
 
-## Final Checks
+### Final checks
 
 Re-read the generated glossary before finishing.
 

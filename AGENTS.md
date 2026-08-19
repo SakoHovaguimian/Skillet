@@ -14,6 +14,8 @@ Skillet is a portable collection of agent skills for Codex and Claude Code.
 
 ## Skill design
 
+- Follow `docs/SKILL_AUTHORING_STANDARD.md` for `SKILL.md` structure, descriptions,
+  cross-skill invocation, script paths, and shared verbatim blocks.
 - Keep `SKILL.md` focused on outcomes, routing, non-obvious constraints, and the core workflow.
 - Add `references/`, `scripts/`, or `assets/` only when the skill uses them.
 - Preserve user intent and authorization boundaries. Do not turn one example into a universal rule.

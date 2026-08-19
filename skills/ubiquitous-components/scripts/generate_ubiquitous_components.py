@@ -163,7 +163,8 @@ def parse_args() -> argparse.Namespace:
         default=None,
         help=(
             "Optional override path for globally shared Rune catalog "
-            "(default: $CODEX_HOME/shared/ubiquitous-components/rune/UBIQUITOUS_COMPONENTS.md)."
+            "(default: <shared-home>/shared/ubiquitous-components/rune/UBIQUITOUS_COMPONENTS.md, "
+            "where <shared-home> is $SKILLET_SHARED_HOME, else $CODEX_HOME, else ~/.codex)."
         ),
     )
     return parser.parse_args()
@@ -175,15 +176,16 @@ def to_absolute(path: Path, workspace: Path) -> Path:
     return (workspace / path).resolve()
 
 
-def codex_home() -> Path:
-    raw = os.environ.get("CODEX_HOME", "").strip()
-    if raw:
-        return Path(raw).expanduser().resolve()
+def shared_home() -> Path:
+    for env_var in ("SKILLET_SHARED_HOME", "CODEX_HOME"):
+        raw = os.environ.get(env_var, "").strip()
+        if raw:
+            return Path(raw).expanduser().resolve()
     return (Path.home() / ".codex").resolve()
 
 
 def default_global_rune_output() -> Path:
-    return codex_home() / "shared" / "ubiquitous-components" / "rune" / "UBIQUITOUS_COMPONENTS.md"
+    return shared_home() / "shared" / "ubiquitous-components" / "rune" / "UBIQUITOUS_COMPONENTS.md"
 
 
 def dedupe_paths(paths: Iterable[Path]) -> List[Path]:
