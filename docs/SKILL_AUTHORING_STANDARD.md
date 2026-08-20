@@ -120,6 +120,11 @@ Producer and consumer skills must document the same chain.
 
 Run before merging a new or edited skill:
 
+```bash
+python3 scripts/validate_repository.py
+npx skills@latest add . --list
+```
+
 - [ ] Folder name, frontmatter `name`, and README inventory row all match.
 - [ ] `disable-model-invocation: true` in frontmatter; `allow_implicit_invocation: false` in `agents/openai.yaml`.
 - [ ] Description follows the formula and is agent-neutral.
@@ -129,3 +134,8 @@ Run before merging a new or edited skill:
 - [ ] Script paths use the `<skill-dir>` idiom; no absolute or bare-relative paths.
 - [ ] Writing-hygiene block, if present, matches this document verbatim.
 - [ ] `npx skills@latest add . --list` discovers the skill with the intended name and description.
+
+The repository validator enforces the machine-checkable items above, verifies
+local links, loads each Python helper through `--help`, and checks helper-specific
+safety invariants. Reviewers remain responsible for whether a skill makes sound
+decisions and preserves user authorization.

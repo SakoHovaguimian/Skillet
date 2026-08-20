@@ -1,6 +1,6 @@
 ---
 name: ios-conversational-planning-grill-me
-description: Produce an implementation-ready plan for iOS projects through repository discovery, iOS architecture analysis, and a conversational decision interview. Use before coding when UIKit, SwiftUI, Rune, navigation, lifecycle, concurrency, or ubiquitous-language and business-logic constraints matter. Do not use for non-iOS repositories; use `$conversational-planning-grill-me` there.
+description: Produce an implementation-ready plan for iOS projects through repository discovery, iOS architecture analysis, and a conversational decision interview. Use when UIKit, SwiftUI, Rune, navigation, lifecycle, concurrency, or ubiquitous-language and business-logic constraints must be resolved before coding. Do not use for non-iOS repositories; use `$conversational-planning-grill-me` there.
 disable-model-invocation: true
 ---
 
@@ -52,9 +52,11 @@ For approved SwiftUI work, preserve the shared handoff rules and invoke `$projec
 | Invokes | When | Carries in | Expects back | If unavailable |
 | --- | --- | --- | --- | --- |
 | `$conversational-planning-grill-me` | Step 3, after the iOS preflight | iOS evidence, canonical terminology, constraints, open decisions | The approved final plan and decision ledger | Run the interview with `$grill-me` directly, replicate the approval gate, and note the missing engine |
+| `$grill-me` | The shared planning engine is unavailable and its interview must run directly | The iOS evidence, constraints, conflicts, and open decisions | A decision-complete ledger and confirmed shared understanding | Run a reduced interview inline, state that the full interview skill was unavailable, and preserve the approval gate |
 | `$project-rune-implementation-protocol` | Post-approval, for Rune-first SwiftUI feature work in protocol-following projects | The approved plan, decision ledger, and verification limits | The implemented vertical slice and integration report | Implement directly against local patterns and report the limitation |
 | `$swift-sako-semantic-linter` | After in-scope Rune Swift or SwiftUI edits | The list of touched Swift files | The semantic scan report with fixes applied | Preserve local patterns and state that semantic compliance is unverified |
 | `$swift-6-concurrency` | When approved work materially changes isolation, `Sendable`, tasks, actors, or async control flow | The concurrency-relevant diff and project settings | Isolation-correct guidance or fixes | Flag the concurrency risk for manual review |
+| `$unslop` | Once, only when this skill produces a standalone iOS report outside the shared engine | The complete standalone report | The prose-improved report with evidence and decisions intact | Skip the pass and deliver the report unchanged |
 </interface>
 
 The shared engine owns the single `$unslop` pass on the outermost final planning artifact. The canonical hygiene rule applies only when this skill produces a separate iOS-specific report outside that engine:

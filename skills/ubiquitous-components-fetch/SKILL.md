@@ -48,7 +48,7 @@ If the file is missing, this skill cannot proceed; see failure handling.
 <interface>
 | Invokes | When | Carries in | Expects back | If unavailable |
 | --- | --- | --- | --- | --- |
-| `$ubiquitous-components` (producer side) | Never invoked by this skill; recommend it to the user when the global catalog is missing | — | A freshly published global catalog | The consumer project proceeds without the shared catalog and reports the limitation |
+| `$ubiquitous-components` | The global catalog is missing and the user can run the producer in a Rune-capable project | The missing resolved catalog path | A freshly published global catalog | The consumer project proceeds without the shared catalog and reports the limitation |
 </interface>
 
 Both skills resolve the shared home with the same chain (`$SKILLET_SHARED_HOME`, else `$CODEX_HOME`, else `~/.codex`); changing the chain on one side without the other breaks the exchange.

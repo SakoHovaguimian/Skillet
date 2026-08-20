@@ -62,10 +62,12 @@ new skill is selected too.
 From the repository root:
 
 ```bash
+python3 scripts/validate_repository.py
 npx skills@latest add . --list
 ```
 
-This prints the skills discovered in the checkout and does not install them.
+The first command validates the repository contract and bundled helpers. The
+second prints the skills discovered in the checkout and does not install them.
 
 ## For Codex or Claude acting on an install request
 

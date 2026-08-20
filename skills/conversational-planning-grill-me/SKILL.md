@@ -1,6 +1,6 @@
 ---
 name: conversational-planning-grill-me
-description: Produce an implementation-ready plan for a repository or technical/product change through evidence-first discovery and a focused conversational decision interview. Use before coding when requirements, boundaries, risks, or trade-offs need to be resolved. Do not use for iOS-specific planning when `$ios-conversational-planning-grill-me` applies; this stack-neutral skill does not depend on iOS, SwiftUI, Rune, or ubiquitous-component catalogs.
+description: Produce an implementation-ready plan for a repository or technical/product change through evidence-first discovery and a focused conversational decision interview. Use when requirements, boundaries, risks, or trade-offs need to be resolved before coding. Do not use for iOS-specific planning when `$ios-conversational-planning-grill-me` applies; this stack-neutral skill does not depend on iOS, SwiftUI, Rune, or ubiquitous-component catalogs.
 disable-model-invocation: true
 ---
 

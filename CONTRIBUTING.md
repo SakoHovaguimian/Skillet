@@ -58,13 +58,17 @@ committing:
 
 ## Inspect
 
-Confirm that the installer discovers the collection from the repository root:
+Run the repository contract validator, then confirm that the installer discovers
+the collection from the repository root:
 
 ```bash
+python3 scripts/validate_repository.py
 npx skills@latest add . --list
 ```
 
-Review the printed names and descriptions before publishing.
+The validator checks structure, metadata, composition, portable paths, shared
+verbatim blocks, local links, inventory parity, and helper startup. Review the
+installer's printed names and descriptions before publishing.
 
 ## Review checklist
 

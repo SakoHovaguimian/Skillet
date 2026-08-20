@@ -1,6 +1,6 @@
 ---
 name: swift-sako-semantic-linter
-description: Review and repair touched Swift and SwiftUI code against Sako, Rune, Grimoire, and local project semantics. Use after Swift edits or for focused audits of member access, formatting, screen structure, navigation-created ViewModels, lifecycle and analytics, concurrency safety, Rune UI, routes, DI, API, mocks, previews, permissions, and integration parity. Do not use for Swift 6 isolation diagnostics; those route to `$swift-6-concurrency`.
+description: Review and repair touched Swift and SwiftUI code against Sako, Rune, Grimoire, and local project semantics. Use when Swift edits need a follow-up pass or a focused audit of member access, formatting, screen structure, navigation-created ViewModels, lifecycle and analytics, concurrency safety, Rune UI, routes, DI, API, mocks, previews, permissions, or integration parity. Do not use for Swift 6 isolation diagnostics; those route to `$swift-6-concurrency`.
 disable-model-invocation: true
 ---
 

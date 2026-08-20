@@ -28,6 +28,7 @@ Skillet is a portable collection of agent skills for Codex and Claude Code.
 Run:
 
 ```bash
+python3 scripts/validate_repository.py
 npx skills@latest add . --list
 ```
 

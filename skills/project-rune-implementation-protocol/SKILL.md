@@ -1,6 +1,6 @@
 ---
 name: project-rune-implementation-protocol
-description: Implement SwiftUI features with architecture parity and Rune-first composition. Use for screens, navigation-created ViewModels, flows, services, APIs, DI, routes, analytics, mocks, previews, or batch features in projects that follow the Rune/Grimoire patterns. Do not restate coding rules here; all Swift, screen, lifecycle, concurrency, Rune, and parity rules belong to `$swift-sako-semantic-linter`.
+description: Implement SwiftUI features with architecture parity and Rune-first composition. Use when building screens, navigation-created ViewModels, flows, services, APIs, DI, routes, analytics, mocks, previews, or batch features in projects that follow the Rune/Grimoire patterns. Do not restate coding rules here; all Swift, screen, lifecycle, concurrency, Rune, and parity rules belong to `$swift-sako-semantic-linter`.
 disable-model-invocation: true
 ---
 

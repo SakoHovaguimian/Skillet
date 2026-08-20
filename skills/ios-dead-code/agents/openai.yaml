@@ -1,7 +1,0 @@
-interface:
-  display_name: "iOS Dead Code"
-  short_description: "Find unreachable iOS code and assets"
-  default_prompt: "Use $ios-dead-code to audit this hybrid UIKit/SwiftUI iOS codebase for unreachable code islands, orphaned bridges, unused assets, and dependency cleanup candidates."
-
-policy:
-  allow_implicit_invocation: false

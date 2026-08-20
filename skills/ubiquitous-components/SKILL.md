@@ -78,7 +78,7 @@ A workspace containing Rune source (local checkout, resolved package, or Derived
 <interface>
 | Invokes | When | Carries in | Expects back | If unavailable |
 | --- | --- | --- | --- | --- |
-| `$ubiquitous-components-fetch` (consumer side) | Never invoked by this skill; consumers run it to import the global catalog this skill publishes | — | — | Consumers use the local `docs/UBIQUITOUS_COMPONENTS.md` directly |
+| `$ubiquitous-components-fetch` | Consumers need to import the global catalog this skill publishes | The published shared-catalog location and freshness metadata | A project-local copy of the shared catalog | Consumers use the local `docs/UBIQUITOUS_COMPONENTS.md` directly |
 </interface>
 
 Both skills resolve the shared home with the same chain (`$SKILLET_SHARED_HOME`, else `$CODEX_HOME`, else `~/.codex`); changing the chain on one side without the other breaks the exchange.
