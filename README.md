@@ -70,6 +70,7 @@ If a skill does not genuinely need a script, reference, or asset, it should not 
 
 | Skill                                   | Purpose                                                                                                                       |
 | --------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
+| `code-simplifier`                       | Simplifies recently modified code without changing its behavior or the codebase's existing architecture.                      |
 | `conversational-planning-grill-me`      | Discovers the repository and turns an idea into a decision-complete implementation plan.                                      |
 | `dead-code-scanner`                     | Finds unreachable code, dead ends, obsolete resources, unnecessary references, and dependencies that can actually be removed. |
 | `fix-root-causes`                       | Debugs the underlying problem instead of patching the symptom.                                                                |
