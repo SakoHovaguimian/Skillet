@@ -112,18 +112,31 @@ def changed_lines(path: Path, base: str) -> set[int] | None:
     )
 
     if root_result.returncode != 0:
-        return None
+        raise ValueError(f"Cannot determine the Git repository for {path}; diff-scoped scan not performed.")
 
     root = Path(root_result.stdout.strip())
     relative_path = path.relative_to(root)
+    base_result = subprocess.run(
+        ["git", "-C", str(root), "rev-parse", "--verify", "--end-of-options", f"{base}^{{commit}}"],
+        capture_output=True,
+        check=False,
+        text=True,
+    )
+    if base_result.returncode != 0:
+        raise ValueError(f"Cannot resolve diff base {base!r} in {root}; diff-scoped scan not performed.")
+
     tracked_result = subprocess.run(
-        ["git", "-C", str(root), "ls-files", "--error-unmatch", str(relative_path)],
+        ["git", "-C", str(root), "ls-files", "-z", "--", str(relative_path)],
         capture_output=True,
         check=False,
         text=True,
     )
 
     if tracked_result.returncode != 0:
+        raise ValueError(f"Cannot determine tracking status for {path}; diff-scoped scan not performed.")
+
+    if not tracked_result.stdout:
+        # Confirmed untracked files need a full-file scan.
         return None
 
     diff_result = subprocess.run(
@@ -134,7 +147,7 @@ def changed_lines(path: Path, base: str) -> set[int] | None:
             "diff",
             "--unified=0",
             "--no-ext-diff",
-            base,
+            base_result.stdout.strip(),
             "--",
             str(relative_path),
         ],
@@ -144,7 +157,7 @@ def changed_lines(path: Path, base: str) -> set[int] | None:
     )
 
     if diff_result.returncode != 0:
-        return None
+        raise ValueError(f"Cannot read the requested diff for {path}; diff-scoped scan not performed.")
 
     lines: set[int] = set()
     hunk_pattern = re.compile(r"^@@ -\d+(?:,\d+)? \+(\d+)(?:,(\d+))? @@")
@@ -779,14 +792,16 @@ def main() -> int:
         print("No Swift files found.", file=sys.stderr)
         return 2
 
-    findings = [
-        finding
-        for path in files
-        for finding in scan(
-            path,
-            changed_lines(path, args.diff_base) if args.diff_base else None,
-        )
-    ]
+    try:
+        scopes = {
+            path: changed_lines(path, args.diff_base) if args.diff_base else None
+            for path in files
+        }
+    except (OSError, ValueError) as error:
+        print(f"[ERROR] {error}", file=sys.stderr)
+        return 2
+
+    findings = [finding for path, scope in scopes.items() for finding in scan(path, scope)]
 
     if args.summary and findings:
         print_summary(findings, len(files), args.max_examples)

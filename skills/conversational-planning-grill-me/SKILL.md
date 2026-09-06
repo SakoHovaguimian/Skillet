@@ -1,6 +1,6 @@
 ---
 name: conversational-planning-grill-me
-description: Produce an implementation-ready plan for a repository or technical/product change through evidence-first discovery and a focused conversational decision interview. Use when requirements, boundaries, risks, or trade-offs need to be resolved before coding. Do not use for iOS-specific planning when `$ios-conversational-planning-grill-me` applies; this stack-neutral skill does not depend on iOS, SwiftUI, Rune, or ubiquitous-component catalogs.
+description: Create an evidence-backed implementation plan through a decision interview. Use when explicitly asked to plan a repository change or resolve material requirements before implementation. Do not use for direct implementation requests with settled requirements; use the iOS planning skill for iOS-specific planning.
 disable-model-invocation: true
 ---
 
@@ -20,7 +20,7 @@ A change request and access to the repository or artifacts it concerns. If the r
 
 ### 1. Discover before interviewing
 
-Read, in order when present:
+Reuse evidence already collected in this task. Read applicable instructions, then inspect only the documents, code, contracts, and history needed to resolve a material planning decision. Treat the categories below as search targets, not a mandatory repository tour. Expand the search when the current evidence cannot establish behavior, ownership, or risk.
 
 1. Applicable `AGENTS.md` files and explicit user constraints.
 2. Project context, domain, architecture, product, and decision documents.
@@ -49,7 +49,7 @@ Read [references/plan-readiness.md](references/plan-readiness.md) once a reposit
 
 ### 3. Run the interview
 
-Invoke `$grill-me` and follow its interview rules exactly. Let repository evidence settle discoverable facts, ask the user only for intent or authority, and keep the interview open until the decision-complete shared-understanding gate is satisfied.
+Invoke `$grill-me` with the collected evidence and remaining decisions. Let repository evidence settle discoverable facts and ask the user only for intent or authority. The interview returns a decision-complete ledger; this workflow owns final plan confirmation.
 
 ### 4. Produce the executable plan
 
@@ -57,18 +57,18 @@ Make the final plan proportionate to risk, using the output contract below. Use 
 
 ### 5. Approval gate
 
-Restate the complete current plan once after all material branches close. Then stop and request explicit approval of that exact plan.
+This workflow owns the single final approval gate. Present the complete current plan after all material branches close. Request approval only if that exact plan has not already been explicitly approved. Reopen approval only when new evidence materially changes scope, risk, or the authorized next action. A planning-only request ends with the plan and does not authorize implementation.
 
 ### 6. Implementation handoff
 
-After approval, use the most specific available implementation skill for the repository or execute the approved plan directly. Carry the final plan, decision ledger, constraints, verification limits, and unresolved risks into that handoff.
+After approval, and only when implementation was requested, use the most specific available implementation skill for the repository or execute the approved plan directly. Carry the final plan, decision ledger, constraints, verification limits, and unresolved risks into that handoff.
 
 Never silently reopen an approved product decision during implementation. Surface new contradictory evidence instead.
 
 ## Constraints
 
 - Do not treat agreement with an earlier draft, generic enthusiasm, or a request to keep planning as implementation approval.
-- Do not edit implementation files during this skill unless the user explicitly changes the task.
+- Keep planning read-only. Begin implementation only after the final gate and only when implementation was requested.
 - Do not present inference as fact; every claim keeps its `Evidence`, `Inference`, or `Open decision` label until resolved.
 
 ## Composition
@@ -76,9 +76,9 @@ Never silently reopen an approved product decision during implementation. Surfac
 <interface>
 | Invokes | When | Carries in | Expects back | If unavailable |
 | --- | --- | --- | --- | --- |
-| `$grill-me` | Step 3, after the initial planning model exists | The planning model, evidence anchors, constraints, and open decisions | A decision-complete ledger and confirmed shared understanding | Run a reduced interview inline, state that the full engine was unavailable, and keep the approval gate |
+| `$grill-me` | Step 3, after the initial planning model exists | The planning model, inspected paths, evidence anchors, requested mode, scope, verification restrictions, and open decisions | A decision-complete ledger ready for the parent's final confirmation | Run a reduced interview inline, state that the full engine was unavailable, and keep the approval gate |
 | `$unslop` | Once, on the complete planning artifact, only when no parent workflow owns the final artifact | The complete drafted plan | The prose-improved plan with structure intact | Skip the pass and deliver the plan unchanged |
-| Repository implementation skill (most specific available) | After explicit approval, at handoff | Final plan, decision ledger, constraints, verification limits, unresolved risks | Implementation consistent with the approved plan | Execute the approved plan directly |
+| Repository implementation skill (most specific available) | After explicit approval, when implementation was requested | Final plan, decision ledger, constraints, verification limits, unresolved risks | Implementation consistent with the approved plan | Execute the approved plan directly |
 </interface>
 
 Invoke `$unslop` once on the complete user-facing artifact after its technical content is final, unless a parent workflow owns the final artifact, in which case the outermost workflow makes the single pass. `$unslop` may improve prose but must not change technical meaning: preserve code, paths, symbols, commands, measurements, quoted decisions, evidence anchors, classification labels, and document structure. If `$unslop` is unavailable, deliver the artifact unchanged and note the skipped pass. In this skill, the pass must also not introduce decisions or weaken the approval gate.

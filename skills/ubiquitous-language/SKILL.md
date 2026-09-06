@@ -37,7 +37,7 @@ Evidence verification + summary
 1. Scan the current conversation.
    Extract domain nouns, verbs, actors, states, workflows, overloaded terms, synonym clusters, and phrases the user uses with strong intent. Capture how the user talks about the domain before checking whether the code agrees.
 
-2. Read the existing `docs/UBIQUITOUS_LANGUAGE.md` if it exists.
+2. Inspect the affected terms and cross-references in the existing `docs/UBIQUITOUS_LANGUAGE.md` if it exists. Read the whole glossary for a comprehensive refresh.
    Merge forward instead of restarting blindly. Keep stable terms when possible. Move dropped or actively discouraged terms to the retired section only when conversation or code evidence supports the change.
 
 3. Inspect the codebase, starting with domain-shaped folders.
@@ -164,7 +164,7 @@ Explicit callouts for confusing terms:
 - Include only domain-relevant concepts.
 - Define the same word separately when it means different things in different bounded contexts.
 - Flag contested or misleading names directly and recommend better canonical terms.
-- Rewrite the example dialogue so it resolves a real ambiguity or clarifies a real relationship found in the codebase.
+- Include example dialogue only when it resolves a real ambiguity or clarifies a real relationship found in the codebase.
 - Use evidence status labels: `Confirmed`, `Likely`, `Conflicting`, `Missing evidence`, or `Retired`.
 - Do not invent business meaning from file names alone. File names are leads, not proof.
 - If the conversation and code disagree, document both and recommend the term that best supports domain clarity.
@@ -176,110 +176,6 @@ Explicit callouts for confusing terms:
 
 ## Output contract
 
-Write `docs/UBIQUITOUS_LANGUAGE.md` with exactly this structure:
+Write or update `docs/UBIQUITOUS_LANGUAGE.md` within the requested domain scope. Preserve valid terms, bounded-context distinctions, evidence, uncertainty labels, naming conflicts, and justified retirement records.
 
-```md
-# Ubiquitous Language
-
-## Glossary Snapshot
-
-| Area | Canonical terms | Key ambiguity | Alignment |
-| --- | --- | --- | --- |
-| Billing | **Customer**, **Order**, **Invoice** | "Account" overlaps with Identity | Partial alignment |
-
-## Context Map
-
-```text
-[Context A] TermOne action → TermTwo
-[Context B] Actor command → DomainEvent → State
-```
-
-## Bounded Context: [Context Name, e.g., Billing]
-
-### Core Terms
-| Term | Definition | Aliases to avoid | Evidence |
-| --- | --- | --- | --- |
-| **Order** | A customer's request to purchase one or more items. | Purchase, transaction | `Order`, `CreateOrder`, `orders/:id` |
-| **Invoice** | A request for payment tied to fulfilled value. | Bill, payment request | `Invoice`, `InvoicingService` |
-
-### Actors
-| Term | Definition | Aliases to avoid | Evidence |
-| --- | --- | --- | --- |
-| **Customer** | A person or organization that places orders. | Client, buyer | `Customer`, `customerId` |
-
-### Domain Events & Actions
-| Action / Event | Definition | Triggers / State Change | Evidence |
-| --- | --- | --- | --- |
-| **FulfillOrder** | The act of successfully delivering the requested items. | Transitions Order to `Fulfilled`; generates `Invoice`. | `FulfillOrder`, `OrderService.fulfill()` |
-
-### Lifecycle & States
-```text
-OrderDraft → OrderPlaced → OrderFulfilled → OrderCancelled
-```
-
-| State | Meaning | Entered by | Exited by / Terminal? |
-| --- | --- | --- | --- |
-| `OrderDraft` | The order is being prepared and has not been placed. | `CreateOrderDraft` | `PlaceOrder`; not terminal |
-
-### Relationships
-- An **Invoice** belongs to exactly one **Customer**.
-- An **Order** can produce one or more **Invoices**.
-
-### Naming Drift & Recommendations
-| Issue | Recommendation | Rationale / Evidence | Status |
-| --- | --- | --- | --- |
-| UI uses "Bill" while backend uses `Invoice`. | Use **Invoice** as canonical. | `InvoicingService` owns payment request lifecycle. | Confirmed |
-
-*(Repeat the Bounded Context block above for other contexts, e.g., Identity, Inventory, etc.)*
-
----
-
-## Codebase Evidence
-
-| Term | Context | Model / Type | Primary usages | UI / Route language | Notes | Status |
-| --- | --- | --- | --- | --- | --- | --- |
-| **Order** | Billing | `Order` | `CreateOrder`, `FulfillOrder`, `CancelOrder` | `/orders`, "Order details" | Canonical term is mostly consistent across layers. | Confirmed |
-| **Account** | Multiple | `Account`, `UserAccount` | `LoginUser`, `AttachCustomerAccount` | `/account`, "Account settings" | Ambiguous across Auth and Billing contexts. | Conflicting |
-
-## Synonym & Ambiguity Matrix
-
-| Word / Phrase | Meanings found | Contexts | Recommendation | Evidence |
-| --- | --- | --- | --- | --- |
-| Account | Login identity; billing customer container | Identity, Billing | Qualify as **User Account** or **Customer Account**. | `UserAccount`, `customer.accountId` |
-
-## Example Dialogue
-
-> **Dev:** "In the Billing context, when a **Customer** places an **Order**, do we create the **Invoice** immediately?"
->
-> **Domain expert:** "No. The **Invoice** is generated only after the **FulfillOrder** action is confirmed."
->
-> **Dev:** "So an **Order** and an **Invoice** are not the same lifecycle concept?"
->
-> **Domain expert:** "Exactly. The **Order** captures intent. The **Invoice** captures billable fulfillment."
-
-## Flagged Ambiguities
-
-- "account" was used to mean both **Customer** in Billing and **User** in Identity. These are distinct concepts across bounded contexts and should not share the same canonical name in discussions.
-
-## Retired Terminology
-
-| Legacy Term | Replaced By | Reason | Evidence |
-| --- | --- | --- | --- |
-| **Bill** | **Invoice** | "Bill" was used inconsistently in the UI. Standardized on Invoice to match the `InvoicingService`. | `InvoicingService`, legacy copy |
-```
-
-### Final checks
-
-Re-read the generated glossary before finishing.
-
-- Ensure the file is saved strictly as `docs/UBIQUITOUS_LANGUAGE.md`.
-- Ensure bounded contexts are explicit and defensible.
-- Ensure the glossary snapshot gives readers a fast overview.
-- Ensure the context map is present when there are multiple contexts.
-- Ensure definitions are one sentence and domain-focused.
-- Ensure the codebase evidence section only claims support that the search actually found.
-- Ensure lifecycle/state sections appear only where states are real and supported by evidence.
-- Ensure the example dialogue reflects a real ambiguity or relationship from this repository.
-- Ensure flagged ambiguities are actionable, not vague observations.
-- Ensure retired terminology contains only terms the team should stop using.
-- Ensure no term is treated as canonical solely because it appears in a DTO, payload, mapper, helper, or API wrapper.
+For a new comprehensive glossary, load [references/output-template.md](references/output-template.md). For a scoped update, inspect and update only affected terms and their cross-references. Include maps, lifecycle sections, and example dialogue only when they explain relationships or ambiguities supported by evidence. Re-read the resulting document before finishing.

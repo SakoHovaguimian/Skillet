@@ -3,7 +3,7 @@
 ## Strategy
 
 1. Confirm current settings (`SWIFT_VERSION`, strict concurrency, default isolation, upcoming features).
-2. Update dependencies first.
+2. Check dependency compatibility first. Update only dependencies that block the requested migration, within the authorized scope; otherwise keep the resolved versions unchanged.
 3. Add async alternatives before replacing closure APIs.
 4. Raise strict-concurrency level incrementally: minimal -> targeted -> complete.
 5. Keep PRs small and scoped to concurrency behavior.

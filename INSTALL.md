@@ -46,6 +46,8 @@ npx skills@latest add sakohovaguimian/skillet --global --agent claude-code --ski
 npx skills@latest list --global
 ```
 
+Before comparing skill behavior across revisions, record the source commit and the resolved installed skill paths. Compare each entry point and its referenced files with that revision, and check for duplicate frontmatter names. Resolve stale or duplicate installations through an explicitly requested installation cleanup; do not patch installed copies directly.
+
 ## Update
 
 Update the installed set from its recorded sources:

@@ -80,4 +80,4 @@ _Generated: 2026-03-31T20:00:00-07:00_
 - Keep declaration rows deterministic and stable between runs.
 - Keep `Entry Points` concise while preserving meaningful API coverage.
 - Keep `What` factual and implementation-grounded.
-- Keep the global Rune artifact in sync for cross-project reuse.
+- When shared publication is authorized, verify the Rune-only candidate before updating the global artifact for cross-project reuse.

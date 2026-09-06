@@ -1,6 +1,6 @@
 ---
 name: grill-me
-description: Relentlessly stress-test a plan, product decision, technical design, or architecture before action. Build a dependency-aware decision tree, investigate discoverable facts, and interview the user in focused rounds that resolve every currently unblocked decision. Use when the user asks to be grilled, challenged, pressure-tested, interviewed, or guided through unresolved requirements, trade-offs, dependencies, risks, and edge cases. Do not act on the resulting plan until the user confirms that shared understanding has been reached.
+description: Pressure-test a proposal and return a decision-complete summary. Use when asked for a challenging interview about requirements, design choices, dependencies, or risks. Do not use for routine clarification or direct implementation.
 disable-model-invocation: true
 ---
 
@@ -28,7 +28,7 @@ Grilling is not brainstorming and it is not passive clarification. It is a relen
 
 A proposal, plan, design, or decision to stress-test, and a user available to answer interview rounds. Before asking anything, establish ground truth:
 
-1. Read all applicable instructions and user-provided artifacts.
+1. Reuse evidence passed by the parent or already collected in this task. Read applicable instructions and user-provided artifacts needed to resolve remaining material decisions.
 2. Inspect relevant code, documentation, configuration, interfaces, schemas, tests, history, analytics, operational evidence, and existing behavior.
 3. Separate what the evidence proves from what it merely suggests.
 4. Identify conflicts between code, documentation, current behavior, and stated intent.
@@ -316,7 +316,7 @@ Before requesting confirmation:
 6. Confirm that no answer relies on an unresolved prerequisite.
 7. Confirm that the proposed next action matches the authority the user has granted.
 
-Then present the final shared-understanding summary defined in the output contract.
+Then return the final shared-understanding summary to the parent workflow, or present it for confirmation when used standalone.
 
 ## Constraints
 
@@ -331,14 +331,11 @@ Then present the final shared-understanding summary defined in the output contra
 
 ### Authorization gate
 
-Do not implement, edit files, generate production artifacts, execute commands, create tickets, or otherwise act on the plan until the user explicitly confirms the shared understanding.
+Read-only investigation needed to resolve the proposal may proceed before confirmation, subject to the user's scope and repository restrictions. Do not implement the plan, modify project files, create external artifacts, or perform external writes before the required confirmation.
 
-Confirmation of the plan authorizes only the next action when:
+When invoked by a parent planning workflow, return the decision-complete ledger to that parent; the parent owns the single final confirmation. When used standalone, present the final summary and request confirmation.
 
-- the user already requested implementation as part of the original task, or
-- the user explicitly authorizes implementation after reviewing the summary
-
-Otherwise, return the decision-complete plan without implying that execution has been approved.
+Confirmation authorizes implementation only when the user has requested implementation. It does not authorize external messages, deployment, destructive operations, or production access beyond the scope explicitly granted.
 
 ## Composition
 
@@ -352,7 +349,7 @@ Invoke `$unslop` once on the complete user-facing artifact after its technical c
 
 ## Failure handling
 
-- A material decision is `Blocked` on missing authority or information: stop, report exactly what is missing and who can supply it, and never substitute an assumption for missing authority.
+- When a decision is blocked, pause actions that depend on it and name the missing information or authority. Continue independent investigation and decisions. Stop the interview only when no useful independent work remains. Never substitute an assumption for missing authority.
 - Research is incomplete or conflicting at summary time: present the conflict record and mark the affected branches; do not present unfinished research as established fact.
 - The user stops responding mid-interview: deliver the current ledger with every open decision labeled, so the interview can resume without loss.
 
@@ -369,6 +366,6 @@ The final shared-understanding summary contains, in order:
 7. **Deferred decisions.** What remains postponed, who owns it, and what triggers reconsideration.
 8. **Risks and recovery.** Remaining risks, detection methods, rollback, retry, migration, or recovery paths.
 9. **Next action.** The first concrete action that would follow confirmation.
-10. **Confirmation.** Ask:
+10. **Confirmation.** When standalone, ask the question below. When composed, return the summary to the parent for its single final confirmation:
 
 > Does this accurately represent our shared understanding, or is any decision, assumption, scope boundary, or risk still wrong or incomplete?

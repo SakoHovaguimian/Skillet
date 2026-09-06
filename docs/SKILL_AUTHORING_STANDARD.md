@@ -38,7 +38,7 @@ the owning section.
 | --- | --- |
 | `## Outcome` | The artifact or state change the skill must leave behind, and its authority boundary (what it owns vs. delegates). |
 | `## Inputs and preconditions` | Required inputs; how to obtain each missing one (ask vs. discover); the stop rule when an input is unobtainable. Destructive steps declare their confirmation gate here. |
-| `## Workflow` | Numbered, deterministic steps. Every conditional names its condition and both branches. |
+| `## Workflow` | Ordered steps where sequence affects correctness. Spell out both branches when they change authority, scope, data preservation, or recovery. Leave routine reversible implementation choices to task evidence and repository conventions. |
 | `## Constraints` | Non-negotiables only: authority boundaries, prohibited actions, and the conflict-resolution order when sources disagree. |
 | `## Composition` | The typed invocation table (below) plus any shared verbatim blocks. |
 | `## Failure handling` | Explicit fallback per failure mode. Reporting the limitation is the floor; silent degradation is never acceptable. |
@@ -69,6 +69,8 @@ the owning section.
 - `Carries in` names the context the caller must pass (decisions, constraints,
   file lists). `Expects back` names what the caller consumes. `If unavailable`
   is mandatory: a missing callee degrades loudly, never silently.
+
+A composition entry does not grant authority beyond the user's task. Pass the requested mode, scope, and verification restrictions to callees. Distinguish actual invocations from recommendations and producer/consumer relationships. Assign one owner to each final approval and verification step.
 
 ## Canonical writing-hygiene block
 
@@ -109,11 +111,9 @@ Producer and consumer skills must document the same chain.
 
 ## Determinism rules
 
-- Number workflow steps; keep one action per step.
-- Every user-facing question round states what happens with each answer.
-- Destructive or irreversible actions (deleting git history, overwriting files)
-  require restating the collected inputs and receiving explicit confirmation
-  immediately before execution, even when the inputs were gathered earlier.
+- Number workflow steps when order matters.
+- State the consequences of answers that change scope, authority, or risk.
+- Declare confirmation gates for destructive or irreversible operations. State the concrete target and consequence before execution. Distinguish ordinary authorized edits to version-controlled files from deletion of Git history, loss of uncommitted work, production-data mutation, and replacement of content outside the requested scope. Preserve intentional operation-specific gates.
 - When a skill cannot verify a claim, it labels the claim instead of asserting it.
 
 ## Quality checklist

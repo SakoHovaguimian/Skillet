@@ -8,19 +8,19 @@ disable-model-invocation: true
 
 ## Outcome
 
-The failure under investigation is traced to its underlying cause and fixed at that source, everywhere the same pattern occurs, instead of being papered over at the symptom. Symptom fixes accumulate: each workaround makes the system harder to reason about while the real bug remains. Root-cause fixes can take longer upfront, but they reduce total debugging time.
+The failure under investigation is traced to its underlying cause and fixed at that source within the authorized scope, instead of being papered over at the symptom. Symptom fixes accumulate: each workaround makes the system harder to reason about while the real bug remains. Root-cause fixes can take longer upfront, but they reduce total debugging time.
 
 ## Inputs and preconditions
 
-A reproducible failure, or enough evidence to build a reproduction. If you cannot reproduce the problem, you cannot verify the fix; build the reproduction first. If reproduction is genuinely impossible (transient environment, missing data), say so explicitly and label the diagnosis as unverified.
+A failure report and enough evidence to investigate it. Reproduce through existing evidence or an authorized local execution. Reproduction does not authorize creating tests, contacting production systems, modifying persistent data, or clearing state. When reproduction is unavailable, continue with bounded inspection and label the diagnosis and verification limits.
 
 ## Workflow
 
-1. Reproduce the failure.
+1. Reproduce the failure when authorized and available; otherwise inspect the existing evidence and state the verification limit.
 2. Ask "why" repeatedly until you reach the root cause, not just the nearest guard-able condition.
-3. Search for the same pattern elsewhere and fix all relevant instances, not just the reported one.
+3. Search for other instances of the demonstrated defect. Repair instances within the authorized scope when the same cause and fix are supported by evidence. Report broader or behaviorally different instances separately.
 4. When stuck, instrument the system. Read the actual error instead of guessing.
-5. Verify the fix against the original reproduction.
+5. Verify the fix against the original reproduction when authorized and available; otherwise inspect the final diff and report what remains unverified.
 
 ### Restart bugs
 
@@ -47,7 +47,7 @@ Invoke `$unslop` once on the complete user-facing artifact after its technical c
 ## Failure handling
 
 - Reproduction impossible: deliver the best-supported hypothesis, labeled as unverified, with the instrumentation that would confirm it.
-- Root cause lies outside the editable scope (third-party code, platform bug): document the true cause, apply the least-harmful mitigation, and mark it explicitly as a mitigation with a link back to the cause.
+- Root cause lies outside the editable scope (third-party code, platform bug): document the true cause, apply the least-harmful mitigation only within the authorized scope, and mark it explicitly as a mitigation with a link back to the cause.
 
 ## Output contract
 

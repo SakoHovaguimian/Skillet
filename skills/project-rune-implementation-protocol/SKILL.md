@@ -1,6 +1,6 @@
 ---
 name: project-rune-implementation-protocol
-description: Implement SwiftUI features with architecture parity and Rune-first composition. Use when building screens, navigation-created ViewModels, flows, services, APIs, DI, routes, analytics, mocks, previews, or batch features in projects that follow the Rune/Grimoire patterns. Do not restate coding rules here; all Swift, screen, lifecycle, concurrency, Rune, and parity rules belong to `$swift-sako-semantic-linter`.
+description: Implement a SwiftUI feature in a project that follows Rune/Grimoire architecture. Use when asked to deliver a feature with matching navigation, state ownership, dependency injection, mocks, analytics, and UI composition. Do not use for planning-only requests, standalone style reviews, or non-Rune projects.
 disable-model-invocation: true
 ---
 
@@ -23,7 +23,7 @@ A feature request (single or batch) and a project that follows the Rune/Grimoire
 ### 1. Resolve project authority
 
 1. Read applicable `AGENTS.md` and project documentation.
-2. Invoke `$ubiquitous-components-fetch` to import the shared Rune catalog.
+2. When the change needs Rune component discovery, inspect the existing local catalog or use `$ubiquitous-components-fetch` in read-only mode to locate the shared catalog. Copy it into the project only when a local copy is needed and that write is within the requested scope.
 3. Inspect only authorities applicable to the request:
    - 2–3 recent nearby screens, ViewModels, and components
    - global imports and active style/theme authority
@@ -65,7 +65,11 @@ Match recent local architecture and formatter output. Reuse project wrappers bef
 
 ### 4. Enforce and verify
 
-Invoke `$swift-sako-semantic-linter` on every touched Swift file with its compact diff-scoped scan. Apply all applicable linter modules and resolve every error or documented semantic exception. Use exact output only to investigate grouped findings.
+Invoke `$swift-sako-semantic-linter` in edit mode within the approved scope on every touched Swift file with its compact diff-scoped scan. Apply all applicable linter modules and resolve every error or documented semantic exception. Use exact output only to investigate grouped findings.
+
+For changes that affect appearance or interaction, inspect the affected UI using an available, authorized preview, running app, or supplied visual artifact. Check the relevant states and accessibility settings. Report what was inspected and any defects corrected.
+
+If visual inspection would require an unauthorized build or unavailable runtime, complete the permitted static work and explicitly mark visual verification as not performed.
 
 Mark applicable integration surfaces `YES`, `NO`, or `N/A`:
 
@@ -77,6 +81,7 @@ Mark applicable integration surfaces `YES`, `NO`, or `N/A`:
 - Rune components, active style, media, layout, and custom gaps are accounted for
 - async work, loading, cancellation, and cleanup satisfy the linter contract
 - compact semantic scan completed with no unresolved errors
+- visual inspection completed for affected appearance and interaction, or explicitly marked not performed
 
 ## Constraints
 
@@ -90,8 +95,8 @@ Mark applicable integration surfaces `YES`, `NO`, or `N/A`:
 <interface>
 | Invokes | When | Carries in | Expects back | If unavailable |
 | --- | --- | --- | --- | --- |
-| `$swift-sako-semantic-linter` | Preflight (step 1) to load rule modules; post-implementation (step 4) on touched files | Planned surfaces, then the touched-file list and diff scope | The applicable rule contract, then the semantic scan report | Preserve local patterns, skip the compliance claim, and report the limitation |
-| `$ubiquitous-components-fetch` | Step 1, before Pattern Lock | The workspace root | The shared Rune catalog available locally | Use local component docs and report the limitation |
+| `$swift-sako-semantic-linter` | Preflight (step 1) to load rule modules; post-implementation (step 4) on touched files | Preflight mode and planned surfaces, then edit mode, touched-file list, diff scope, and verification restrictions | The applicable rule contract, then the semantic scan report | Preserve local patterns, skip the compliance claim, and report the limitation |
+| `$ubiquitous-components-fetch` | Step 1, when Rune component discovery is needed | Workspace root, read-only mode unless a local copy is authorized | The shared catalog path, or an authorized local copy | Use local component docs and report the limitation |
 </interface>
 
 ## Failure handling

@@ -1,6 +1,6 @@
 ---
 name: swift-sako-semantic-linter
-description: Review and repair touched Swift and SwiftUI code against Sako, Rune, Grimoire, and local project semantics. Use when Swift edits need a follow-up pass or a focused audit of member access, formatting, screen structure, navigation-created ViewModels, lifecycle and analytics, concurrency safety, Rune UI, routes, DI, API, mocks, previews, permissions, or integration parity. Do not use for Swift 6 isolation diagnostics; those route to `$swift-6-concurrency`.
+description: Review scoped Swift changes against local Sako, Rune, and Grimoire conventions. Use when explicitly asked for a semantic review or when an authorized implementation workflow requests preflight or verification. Do not apply fixes during review-only or preflight use; route isolation diagnostics to the concurrency skill.
 disable-model-invocation: true
 ---
 
@@ -8,12 +8,12 @@ disable-model-invocation: true
 
 ## Outcome
 
-The requested Swift diff is left locally consistent and semantically safe with the smallest coherent change. This skill is the source of truth for Sako, Rune, and Grimoire code rules; implementation skills reference it rather than restating its contract.
+The requested Swift scope receives a rule preflight, an evidence-backed review, or the smallest coherent authorized repair, according to the requested mode. This skill is the source of truth for Sako, Rune, and Grimoire code rules; implementation skills reference it rather than restating its contract.
 
 ## Inputs and preconditions
 
-1. Determine whether the user requested edits or review only.
-2. Identify touched Swift files from the explicit scope or focused diff. Do not absorb unrelated dirty files.
+1. Determine the requested mode: preflight, review-only, or edit. Preflight loads the applicable rule modules and returns constraints for the planned surfaces; it does not scan or edit files. Review-only inspects and reports findings without applying fixes. Edit mode may repair findings only within the user's authorized scope.
+2. For preflight, identify the planned surfaces. For review-only or edit mode, identify touched Swift files from the explicit scope or focused diff. Do not absorb unrelated dirty files.
 3. Read applicable `AGENTS.md`, formatter/linter configuration, and 2–3 recent nearby exemplars.
 
 ## Workflow
@@ -31,6 +31,8 @@ Load the union for mixed changes. If applicability is uncertain, load the module
 
 ### 2. Run the pass
 
+Preflight ends after returning the applicable rule contract. The following steps apply only to review-only and edit modes.
+
 1. Inspect the focused diff and enough surrounding code to understand ownership.
 2. Run the scanner on touched files using compact output (resolve `<skill-dir>` from the location of this `SKILL.md`):
 
@@ -41,13 +43,13 @@ Load the union for mixed changes. If applicability is uncertain, load the module
    Omit `--diff-base` only for an intentional full-file audit. Omit `--summary` or use JSON only when exact individual findings are needed.
 
 3. Classify findings:
-   - `Mechanical`: safe syntax, spacing, wrapping, access, or token cleanup; fix in scope.
-   - `Semantic`: naming, decomposition, ownership, lifecycle, theme, media, or identity; fix only with strong evidence and a focused diff.
+   - `Mechanical`: safe syntax, spacing, wrapping, access, or token cleanup; repair only in edit mode and in scope.
+   - `Semantic`: naming, decomposition, ownership, lifecycle, theme, media, or identity; repair only in edit mode with strong evidence and a focused diff.
    - `Behavioral`: output, state, timing, isolation, navigation, or public API; request authority unless already requested.
    - `Existing`: outside touched lines; leave unchanged unless it blocks the task.
-4. Apply the smallest coherent patch.
-5. Re-run the same scan and inspect the final diff for churn or behavior drift.
-6. Use a configured formatter/static linter only when safe for focused files.
+4. In edit mode, apply the smallest coherent authorized patch. In review-only mode, report the proposed patch without changing files.
+5. After edits, rerun the affected scan and inspect the final diff. Without edits, do not repeat an unchanged scan unless new evidence requires it.
+6. Use a configured formatter/static linter only when safe for focused files; formatting writes require edit mode.
 
 ## Constraints
 
@@ -60,15 +62,16 @@ Load the union for mixed changes. If applicability is uncertain, load the module
 <interface>
 | Invokes | When | Carries in | Expects back | If unavailable |
 | --- | --- | --- | --- | --- |
-| `$swift-6-concurrency` | A finding involves Swift concurrency isolation, `Sendable`, or actor diagnostics | The diagnostic, the touched code, and known project settings | An isolation-correct fix or recommendation | Classify the finding `Behavioral`, flag it for manual review, and do not invent an isolation fix |
+| `$swift-6-concurrency` | A finding involves Swift concurrency isolation, `Sendable`, or actor diagnostics | The requested mode, authorized scope, verification restrictions, diagnostic, touched code, and known project settings | An isolation-correct fix or recommendation | Classify the finding `Behavioral`, flag it for manual review, and do not invent an isolation fix |
 </interface>
 
 ## Failure handling
 
+- If the requested diff base cannot be resolved, report that diff-scoped verification did not run. Do not silently substitute a full-file audit. Full-file scanning remains appropriate for a confirmed new file or an explicitly requested full-file audit.
 - The scanner script fails or is missing: perform the review manually against the loaded rule modules and state that findings were not machine-indexed.
 - A formatter or static linter would touch unrelated code: skip it and report why.
 - Evidence conflicts with a rule module: local evidence wins; record the conflict in the report.
 
 ## Output contract
 
-Return files reviewed/changed, fixes applied, unresolved or out-of-scope findings, verification results, assumptions, conflicts, and limits. If no change is warranted, say so and cite the local evidence.
+For preflight, return the applicable rule modules and constraints without a scan or compliance claim. Otherwise return files reviewed/changed, fixes applied, unresolved or out-of-scope findings, verification results, assumptions, conflicts, and limits. If no change is warranted, say so and cite the local evidence.

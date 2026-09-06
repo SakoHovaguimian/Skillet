@@ -1,6 +1,6 @@
 ---
 name: swift-6-concurrency
-description: Expert guidance for Swift 6 concurrency design, implementation, migration, and debugging. Use when working with async/await, Task/TaskGroup, actors, @MainActor, Sendable, AsyncSequence, AsyncAlgorithms, strict concurrency diagnostics, Swift 6 migration strategy, concurrency testing, performance profiling, or linter warnings such as async_without_await. Do not use for general Swift style; use `$swift-sako-semantic-linter` for that.
+description: Diagnose and resolve Swift concurrency issues. Use when a task materially concerns actor isolation, Sendable, task lifetime, cancellation, async streams, or concurrency migration. Do not use merely because unchanged code contains async or await, or for general Swift style.
 disable-model-invocation: true
 ---
 
@@ -19,7 +19,7 @@ A concurrency question, diagnostic, or migration task, plus the project settings
 - Default actor isolation (`@MainActor` vs `nonisolated`)
 - Upcoming features, especially `NonisolatedNonsendingByDefault`
 
-Read these files first:
+Inspect these settings when they can change the recommendation; reuse settings already established in this task:
 
 - SwiftPM: `Package.swift`
 - Xcode: `*.pbxproj` for
@@ -27,7 +27,7 @@ Read these files first:
   - `SWIFT_DEFAULT_ACTOR_ISOLATION`
   - `SWIFT_UPCOMING_FEATURE_`
 
-If settings are unknown and matter to the decision, ask for them before final recommendations.
+If settings cannot be discovered and materially change the answer, present conditional recommendations and identify what would resolve the uncertainty.
 
 ## Workflow
 
@@ -40,7 +40,7 @@ If settings are unknown and matter to the decision, ask for them before final re
    - Make data `Sendable`.
    - Refactor ownership/lifetime.
    - Use escape hatches only with explicit safety notes.
-4. Add verification steps (tests, compile checks, profiler checks if performance-related).
+4. Choose verification proportionate to the change and consistent with user and repository restrictions; use the output contract below.
 
 ### Error to reference mapping
 
@@ -78,14 +78,19 @@ If settings are unknown and matter to the decision, ask for them before final re
 
 ## Output contract
 
-Every recommendation names: the diagnostic (verbatim when available), the isolation crossing point, the chosen fix and why smaller fixes were insufficient, any escape-hatch safety invariant, and this verification checklist applied to the change:
+Every recommendation names the diagnostic (verbatim when available), the isolation crossing point, the chosen fix and why smaller fixes were insufficient, and any escape-hatch safety invariant.
 
-- Build passes with current concurrency settings.
-- Concurrency diagnostics do not regress.
-- Cancellation paths are covered for long-running tasks.
-- Retain-cycle risks are reviewed (`Task` captures, stream observers).
-- Tests updated or added for behavior changes.
-- Performance-sensitive changes are measured with Instruments when relevant.
+Report verification as performed, not performed, or not applicable. Follow explicit user and repository restrictions on builds, test execution, test creation, and profiling. This checklist does not authorize those actions.
+
+For the affected behavior, report:
+
+- compiler diagnostics or build results when an authorized check ran;
+- cancellation and state changes across suspension points;
+- task ownership and retain-cycle inspection;
+- relevant existing test results when execution was authorized;
+- performance measurements when relevant and authorized.
+
+When execution is prohibited or unavailable, inspect the affected code and final diff, identify the remaining uncertainty, and finish with that limit explicit. Do not claim compilation or runtime correctness from inspection.
 
 ### Reference files
 

@@ -12,7 +12,7 @@ A renamed, re-configured, freshly git-initialized copy of the Grimoire template 
 
 ## Inputs and preconditions
 
-Do not assume project details or modify any file until the user has answered all five questions. Present them together and stop to wait for the response:
+Resolve the intended template copy and repository root through read-only inspection. Reuse explicit answers already supplied in the conversation. Ask together only for missing or ambiguous items from the five inputs below. Do not modify the project before the confirmation gate.
 
 1. **Project name.** What is the new project name?
 2. **Entry flow.** Are Welcome / Login / Signup required as intro screens, or should the app go directly to the main screen?
@@ -20,13 +20,13 @@ Do not assume project details or modify any file until the user has answered all
 4. **Git repository.** What remote git repo URL should the project point to? The existing git history is always removed during scaffolding; the remote is added only when a URL is provided.
 5. **Firebase configuration.** If the project uses Firebase, is there a configuration file (`GoogleService-Info.plist` or Firebase JSON) to replace the existing one at the same location?
 
-Destructive-step gate: this protocol deletes the template's `.git` directory. Before executing any step, restate all five collected answers in a summary and get explicit confirmation. Only that confirmation authorizes execution.
+Destructive-step gate: before modification, present the five resolved inputs, the exact target repository, and the proposed Git-history deletion. Obtain explicit confirmation of that concrete operation. If `.git` is a file, the checkout is a worktree, or the repository root differs from the intended template copy, stop before deletion and resolve the target.
 
 ## Workflow
 
 ### 1. Collect and confirm
 
-Ask the five questions, wait for answers, restate them, and obtain explicit confirmation as defined above. If any answer is missing or ambiguous, ask again for that item; do not fill the gap with a guess.
+Reuse supplied answers, ask for missing or ambiguous inputs, and obtain confirmation of the concrete target and operation as defined above. Do not fill an unresolved input with a guess.
 
 ### 2. Global renaming and header standardization
 
@@ -37,7 +37,7 @@ Ask the five questions, wait for answers, restate them, and obtain explicit conf
 
 ### 3. Git and config scaffolding
 
-1. Remove the existing git tracking (`rm -rf .git`), then initialize a fresh repository (`git init`). This happens only after the confirmation in step 1.
+1. Recheck that the current repository root is the confirmed template copy and `.git` is its directory, not a worktree file or symlink. Remove that confirmed `.git` directory, then initialize a fresh repository at that same root. This happens only after the confirmation in step 1; do not use an unchecked working directory for deletion.
 2. If a remote URL was provided, add it (`git remote add origin <url>`); otherwise leave the repository local and note that in the report.
 3. Update the `.pbxproj`, `Info.plist`, and target build settings to reflect the provided bundle ID exactly.
 4. If the user indicated Firebase usage and provided the configuration file, overwrite the existing file at the identical path and confirm it remains linked in the Xcode project hierarchy. If Firebase was indicated but no file provided, skip the swap and mark it `NO` in the checklist.
@@ -53,7 +53,7 @@ Configure the app's entry point from the entry-flow answer:
 
 Validate every applicable item:
 
-- All five questions were answered and the confirmation summary was approved before any modification.
+- All five inputs were resolved and the target-specific confirmation summary was approved before any modification.
 - Global rename from `Grimoire` or `GlowPro` to the new project name is complete across folders, targets, and build settings.
 - All file headers carry the new project name and today's date.
 - `.git` was removed, a fresh repository was initialized, and the remote origin was added when a URL was provided.
@@ -67,7 +67,7 @@ Validate every applicable item:
 - Treat the existing Grimoire architecture as authoritative: match its patterns; do not invent alternatives.
 - Follow the template's spacing, naming, and formatting exactly.
 - Do not introduce architecture drift during scaffolding.
-- Do not run any step before the confirmation gate has passed.
+- Read-only preparation may proceed before confirmation. Do not modify the project before the confirmation gate has passed.
 
 ## Failure handling
 

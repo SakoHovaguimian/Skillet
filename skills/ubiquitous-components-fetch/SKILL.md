@@ -8,7 +8,7 @@ disable-model-invocation: true
 
 ## Outcome
 
-The globally shared Rune catalog is available inside the current workspace, by default at `docs/UBIQUITOUS_COMPONENTS_GLOBAL.md`, with its source path, freshness, and size reported.
+The globally shared Rune catalog is located and its source path, freshness, and size are reported. When a local copy is requested, it is available by default at `docs/UBIQUITOUS_COMPONENTS_GLOBAL.md`.
 
 ## Inputs and preconditions
 
@@ -21,7 +21,7 @@ If the file is missing, this skill cannot proceed; see failure handling.
 ## Workflow
 
 1. Resolve the global source path from the chain above and validate that the file exists.
-2. Copy it into the current workspace (resolve `<skill-dir>` from the location of this `SKILL.md`):
+2. Use `--read-only` to locate the source when no local copy is needed. When a local copy is requested, inspect the existing destination diff before running the copy command below (resolve `<skill-dir>` from the location of this `SKILL.md`):
 
    ```bash
    python3 <skill-dir>/scripts/fetch_global_ubiquitous_components.py --workspace <repo-root>
@@ -39,6 +39,7 @@ If the file is missing, this skill cannot proceed; see failure handling.
 
 ## Constraints
 
+- Before replacing an existing destination, inspect its diff against the source. Preserve local modifications unless replacing them is authorized. Read-only use must not copy or regenerate either catalog.
 - Default local output path is `docs/UBIQUITOUS_COMPONENTS_GLOBAL.md`.
 - In `--read-only` mode, do not write files; only print source path and size.
 - Keep behavior deterministic and idempotent: fetching twice with the same source produces the same local file.
@@ -48,7 +49,7 @@ If the file is missing, this skill cannot proceed; see failure handling.
 <interface>
 | Invokes | When | Carries in | Expects back | If unavailable |
 | --- | --- | --- | --- | --- |
-| `$ubiquitous-components` | The global catalog is missing and the user can run the producer in a Rune-capable project | The missing resolved catalog path | A freshly published global catalog | The consumer project proceeds without the shared catalog and reports the limitation |
+| `$ubiquitous-components` | Never invoked automatically; recommend it when the shared source is missing | The missing resolved catalog path | A freshly published global catalog | The consumer project proceeds without the shared catalog and reports the limitation |
 </interface>
 
 Both skills resolve the shared home with the same chain (`$SKILLET_SHARED_HOME`, else `$CODEX_HOME`, else `~/.codex`); changing the chain on one side without the other breaks the exchange.

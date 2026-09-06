@@ -1,6 +1,6 @@
 ---
 name: unslop
-description: Cut AI tells from any writing and add a human voice while preserving meaning and intended tone. Use when a draft, report, plan, summary, or other prose deliverable needs its final editing pass, or when a caller requests a writing-hygiene pass on a finished artifact. Do not use to change technical content, decisions, or structure.
+description: Edit supplied prose for clarity and the requested voice while preserving meaning. Use when explicitly asked for a prose cleanup or when an authorized parent workflow requests its final writing pass. Do not invoke for every ordinary response or change technical evidence, decisions, or required structure.
 disable-model-invocation: true
 ---
 
