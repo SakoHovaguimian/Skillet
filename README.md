@@ -85,6 +85,7 @@ If a skill does not genuinely need a script, reference, or asset, it should not 
 | `ubiquitous-components-fetch`           | Pulls the shared Rune component catalog into a project.                                                                       |
 | `ubiquitous-language`                   | Builds a domain glossary from what the codebase actually says and does.                                                       |
 | `unslop`                                | Removes the obvious AI writing tells and makes the output sound human again.                                                  |
+| `vibecheck`                             | Implements a task, then refines it through fresh-context reviews for correctness, overengineering, and codebase conventions.    |
 
 ### Dead Code Means More Than "Unused"
 

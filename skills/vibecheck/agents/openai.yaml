@@ -1,0 +1,7 @@
+interface:
+  display_name: "VibeCheck"
+  short_description: "Implement, independently review, and refine code"
+  default_prompt: "Use $vibecheck; first ask for my task and reviewer model, then implement and run the independent review loop."
+
+policy:
+  allow_implicit_invocation: false
