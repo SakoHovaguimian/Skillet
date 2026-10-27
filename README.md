@@ -71,7 +71,7 @@ If a skill does not genuinely need a script, reference, or asset, it should not 
 | Skill                                   | Purpose                                                                                                                       |
 | --------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
 | `code-simplifier`                       | Simplifies recently modified code without changing its behavior or the codebase's existing architecture.                      |
-| `conjure`                              | Asks for a brand brief and optional images, then creates a modular HTML dashboard for identity, web, and iOS design.            |
+| `conjure`                              | Uses brand and product directions to create complete web/iOS component libraries and working previews in one HTML dashboard.  |
 | `conversational-planning-grill-me`      | Discovers the repository and turns an idea into a decision-complete implementation plan.                                      |
 | `dead-code-scanner`                     | Finds unreachable code, dead ends, obsolete resources, unnecessary references, and dependencies that can actually be removed. |
 | `fix-root-causes`                       | Debugs the underlying problem instead of patching the symptom.                                                                |

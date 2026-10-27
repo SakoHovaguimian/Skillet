@@ -1,7 +1,7 @@
 interface:
   display_name: "Conjure"
-  short_description: "Turn a brand brief into a web and iOS design dashboard"
-  default_prompt: "Use $conjure to create a brand identity and UI design system dashboard; first ask me to confirm the concept, colors, vibe, and any optional reference images."
+  short_description: "Build brand, web and iOS component libraries and previews"
+  default_prompt: "Use $conjure to create a brand dashboard with complete web and iOS component libraries and product previews; first ask about my concept, colors, references or images, app tabs, navigation, features, and business rules."
 
 policy:
   allow_implicit_invocation: false
