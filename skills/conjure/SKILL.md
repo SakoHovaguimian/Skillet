@@ -1,6 +1,6 @@
 ---
 name: conjure
-description: Create a modular HTML brand dashboard with complete web and iOS component libraries and product previews driven by the user's features and business rules. Use when asked for a brand dashboard, a themed component library, web and iOS design exploration, or targeted updates to a Conjure dashboard. Do not use for production app implementation or project scaffolding.
+description: Create an interactive HTML brand and product field guide with complete web and iOS component libraries and working product previews. Use when asked for a brand dashboard, a product field guide, a themed component library, web and iOS design exploration, or targeted updates to a Conjure dashboard. Do not use for production app implementation or project scaffolding.
 disable-model-invocation: true
 ---
 
@@ -8,7 +8,9 @@ disable-model-invocation: true
 
 ## Outcome
 
-Act as a Principal UI/UX Engineer and Lead Brand Designer. Turn the user's concept, palette, and inspiration into a complete Brand Identity and UI Design System Dashboard in one HTML file, with embedded CSS and JavaScript.
+Act as a Principal UI/UX Engineer and Lead Brand Designer. Turn the user's concept, palette, and inspiration into a complete brand and product field guide in one HTML file, with embedded CSS and JavaScript.
+
+Use the GentlePath-inspired editorial experience in [references/field-guide-experience.md](references/field-guide-experience.md) as the default: a numbered chapter sidebar, an illustrated overview, generous typography and spacing, searchable disclosure groups, light/dark appearance, copy and download tools, and Print / PDF. Adapt its visual language to the user's identity and references.
 
 Deliver a coherent identity, a complete Web Portal component library, a separately browsable iOS Grimoire component library with Rune design tokens, and a mobile simulator preview. Give both libraries the breadth of a component-development page: categorized specimens, variant and state matrices, page patterns, and realistic themed examples. Display the iOS catalog outside the phone frame at a readable size, with the simulator demonstrating assembled product screens.
 
@@ -23,7 +25,7 @@ Ask for these inputs together in one concise message:
 1. **Concept:** Brand or product name, what it does, and who it serves.
 2. **Brand colors:** Exact colors or a palette, including any fixed colors. Offer to choose colors if the user prefers.
 3. **Inspiration/vibe:** Desired visual tone, references or links, and anything to avoid.
-4. **Optional images and component references:** Invite attached images, logos, screenshots, moodboards, local image paths, or links to an existing component library. Ask whether they should guide the aesthetic, define catalog coverage, or appear in the dashboard.
+4. **Optional images and references:** Invite attached images, logos, screenshots, moodboards, local HTML or image paths, product specs or schemas, or links to an existing component library. Ask whether they should guide the aesthetic, define catalog coverage, establish product facts, or appear in the dashboard.
 5. **Product structure:** Ask which application tabs, screens, and navigation the user wants, their ordering and default destination, and any differences between web and iOS.
 6. **Feature set:** Ask for the main capabilities, important entities, workflows, and any custom components or themed cards the user wants to explore.
 7. **Business rules and states:** Ask which roles, permissions, validation rules, statuses, action restrictions, and empty/loading/error/success cases should affect the examples.
@@ -39,18 +41,19 @@ The reply may explicitly delegate palette, aesthetic, or product choices. Treat 
 ## Workflow
 
 1. Complete the intake above. Once answered, continue through delivery without repeating the gate during the same invocation.
-2. Read [references/dashboard-contract.md](references/dashboard-contract.md) for the required deliverables, product modeling, token architecture, and semantic IDs, and [references/component-libraries.md](references/component-libraries.md) for the complete catalog and state requirements.
-3. Inspect supplied images, inspiration links, and component-library references. For a library, inventory its categories, variants, states, navigation, page patterns, and interactions as well as its visual layout. Use the requested reference as the structural and coverage target while applying the user's brand and product context. Ask about a conflict only when it materially changes the result.
-4. Translate the confirmed product directions into a navigation model, feature-to-screen map, representative data, and explicit demo rules. Map each requested capability to components, themed examples, and working preview interactions on each requested platform. Resolve material ambiguities in a rule before depicting it as established behavior.
+2. Read [references/field-guide-experience.md](references/field-guide-experience.md) for the presentation and interaction defaults, [references/dashboard-contract.md](references/dashboard-contract.md) for required deliverables, product modeling, token architecture, and semantic IDs, and [references/component-libraries.md](references/component-libraries.md) for the complete catalog and state requirements.
+3. Inspect supplied images, HTML, inspiration links, and component-library references. For HTML, inspect source structure and event handlers as well as the rendered page when available. For a library, inventory its categories, variants, states, navigation, page patterns, and interactions as well as its visual layout. Use the requested reference as the structural and coverage target while applying the user's brand and product context. Ask about a conflict only when it materially changes the result.
+4. Translate the confirmed product directions into a navigation model, feature-to-screen map, representative data, and explicit demo rules. Build a browsable feature guide that links each capability to its web and iOS examples. Distinguish supplied requirements, source-backed foundations, and proposed additions; a schema alone does not establish a working feature. Resolve material ambiguities in a rule before depicting it as established behavior.
 5. Enumerate the full web and iOS component inventory before implementation. Cover every baseline family in the component-library reference, add reference-specific and product-specific components, and map each web pattern to its iOS equivalent. Keep the simulator as a separate assembled-product deliverable.
 6. Establish one visual direction across the identity and both libraries. Use the confirmed concept and palette to write real brand copy, choose fonts, design the SVG mark, and create illustrations or complete image prompts.
-7. Build the complete HTML dashboard according to both references. Keep visual tokens in CSS `:root`, isolate theme and product data from interaction code, and derive shared web/iOS values from the same tokens. Implement the requested app tabs and feature flows in the web product preview and mobile simulator.
+7. Build the complete HTML field guide according to all three references. Keep visual tokens in CSS `:root` and named appearance overrides, isolate theme and product data from interaction code, and derive shared web/iOS values from the same tokens. Implement guide navigation, scoped search/filter/disclosure controls, appearance switching, copy/download tools, and print behavior alongside the requested app tabs and feature flows in the web product preview and mobile simulator.
 8. For a targeted update, inspect the existing file and trace the requested section, feature, or token dependencies before editing. Preserve unrelated sections, stable IDs, and established behavior. Propagate shared changes to affected catalogs, previews, and serialized theme output; keep a platform-specific change scoped to that platform.
-9. Reconcile the delivered web and iOS catalogs against the full inventory and supplied reference. Check requested tabs, feature behavior, business-rule examples, token consistency, responsive layout, and demo interactions. Preview the HTML when a browser is available. Correct observed issues before delivery and avoid claiming visual verification if no preview was possible.
+9. Reconcile the delivered web and iOS catalogs against the full inventory and supplied reference. Check chapter links, search/filter/reset and disclosure behavior, light/dark token synchronization, copy/download output, print-state restoration, responsive navigation, requested tabs, feature behavior, and business-rule examples. Preview the HTML when a browser is available. Correct observed issues before delivery and avoid claiming visual verification if no preview was possible.
 
 ## Constraints
 
 - Respect the user's explicit requirements over inferred reference styling. Do not replace a supplied concept, fixed palette, or existing identity without direction.
+- Carry over the field guide's presentation and interaction patterns without imposing GentlePath's product domain, database, AI concepts, fonts, or exact colors on unrelated products. Include source or planning chapters only when supported by the brief or authorized references.
 - Deliver one HTML file. Embed its CSS, JavaScript, SVGs, and any user images used in the output; Google Fonts and necessary verified Unsplash imagery are the external asset exceptions described in the contract.
 - Write finished content and functioning component demonstrations. Do not use unfinished sections, TODOs, lorem ipsum, dead controls, or omitted code.
 - Keep both component catalogs complete and independently navigable. A few selected controls, a token listing, or a simulator alone cannot satisfy a component-library request. Narrow the catalog only when the user explicitly requests narrower scope.
@@ -76,6 +79,6 @@ The reply may explicitly delegate palette, aesthetic, or product choices. Treat 
 
 After intake is complete, deliver one complete `index.html`, or the complete updated HTML file for a surgical edit. Use the user's requested destination when writing a file. Otherwise choose a dedicated dashboard output location rather than overwriting an unrelated application entry point.
 
-The file must contain every deliverable and stable section ID in [references/dashboard-contract.md](references/dashboard-contract.md), including both complete catalogs defined by [references/component-libraries.md](references/component-libraries.md), their coverage index, the web product preview, and the iOS simulator. Keep assumptions, asset notes, and material verification limits inside the relevant dashboard sections.
+The file must contain every deliverable and stable section ID in [references/dashboard-contract.md](references/dashboard-contract.md), including the overview and product feature guide, both complete catalogs defined by [references/component-libraries.md](references/component-libraries.md), their coverage index, the web product preview, and the iOS simulator. Apply the presentation and interaction contract in [references/field-guide-experience.md](references/field-guide-experience.md). Keep assumptions, asset notes, and material verification limits inside the relevant dashboard sections.
 
 Return only raw HTML when the platform renders it directly. Otherwise return one `html` code block identified as `index.html`, with the entire document and no surrounding prose. Intake questions precede this final-output restriction. Never return only a patch, a fragment, or a shortened document.

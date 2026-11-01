@@ -4,7 +4,7 @@ Read this after the required intake and before building or updating the dashboar
 
 ## Document structure
 
-Deliver a complete HTML document with a doctype, language, viewport metadata, meaningful title, embedded styles, and embedded scripts. Use semantic navigation, main content, headings, and sections. Give the page a composed visual hierarchy that fits the brief rather than imposing a particular palette or layout on every brand.
+Deliver a complete HTML document with a doctype, language, viewport metadata, meaningful title, embedded styles, and embedded scripts. Use semantic navigation, main content, headings, and sections. Apply the editorial shell, chapter structure, and guide interactions in [field-guide-experience.md](field-guide-experience.md), adapting the visual hierarchy to the confirmed brand.
 
 Give Brand Identity, Web Component Library, iOS Component Library, and Product Previews distinct top-level destinations. Give each library its own category navigation and render its complete catalog at a readable size. Keep the dashboard's inspection navigation separate from the application's requested tabs and navigation.
 
@@ -12,6 +12,7 @@ Keep these IDs stable so later requests can name a specific section:
 
 | ID | Contents |
 | --- | --- |
+| `dashboard-overview` | Illustrated product introduction, guide scope, and value pillars |
 | `brand-identity` | Branding and identity section |
 | `brand-logo` | Inline SVG mark and its usage |
 | `brand-colors` | Named palette swatches and values |
@@ -19,6 +20,7 @@ Keep these IDs stable so later requests can name a specific section:
 | `brand-guidelines` | Brand voice and visual tone |
 | `brand-illustrations` | Two or three inline SVG illustrations or complete generation prompts |
 | `product-brief` | Confirmed product directions, navigation, features, and demo rules |
+| `product-features` | Searchable feature groups linking capabilities, rules, and states to both platform demonstrations |
 | `component-coverage` | Catalog index linking each component family to web and iOS specimens |
 | `web-portal` | Web Portal template section |
 | `web-theme` | Readable web token/theme representation |
@@ -35,7 +37,9 @@ Use unique IDs for individual component demonstrations and script blocks as need
 
 Summarize the confirmed brief in `#product-brief`: requested destinations and ordering, key features and entities, platform differences, and supplied business rules. Label delegated choices and sample rules as proposals. Build from the user's product rather than substituting the domain or navigation of an inspiration site.
 
-Maintain clearly commented product data separately from visual themes and event handlers. Use named structures such as `productBrief`, `navigationModel`, and `demoData`, with explicit local rule functions where needed. Keep rule evaluation separate from rendering so a later request can change an allowed action or validation rule without rewriting the dashboard.
+Build `#product-features` as the reader-facing feature guide, with meaningful groups, disclosure summaries, scoped search and category filters, and links into actual web/iOS specimens and assembled previews. Derive overview counts from this feature inventory and the delivered catalogs. Separate source-backed foundations, requested behavior, and proposed additions; include optional source maps or planning chapters only when justified by the brief and inspected references.
+
+Maintain clearly commented product data separately from visual themes and event handlers. Use named structures such as `productBrief`, `featureInventory`, `navigationModel`, and `demoData`, with explicit local rule functions where needed. Keep rule evaluation separate from rendering so a later request can change an allowed action or validation rule without rewriting the dashboard.
 
 Use these directions throughout the output:
 
@@ -50,8 +54,8 @@ A feature name in a summary or an inert menu label is not a completed feature de
 ## Branding and identity
 
 - Design a clean, scalable inline SVG logo that relates to the concept. Give it a `viewBox`, a suitable accessible name, and theme-aware fills or strokes. Show the mark at a useful size and demonstrate any essential light/dark or small-size treatment.
-- Show the supplied colors with names, actual values, and their intended roles. Preserve fixed brand swatches; derive additional surface, text, border, and status colors as needed for usable components.
-- Select appropriate Google Fonts and load them through a Google Fonts stylesheet link in the document head. Define explicit header, body, and monospace stacks with usable local fallbacks, and show real type specimens with weights, sizes, and line heights.
+- Show the supplied colors with names, actual values, and their intended roles, with working copy actions. Preserve fixed brand swatches across appearances; derive additional surface, text, border, and status colors for light and dark UI roles.
+- Select appropriate fonts and load Google Fonts through a stylesheet link in the document head, or embed available licensed font files with their required notices. Define explicit header, body, and monospace stacks with usable local fallbacks, and show real type specimens with weights, sizes, and line heights.
 - Write a short, specific account of the brand's voice and visual tone. Include practical guidance on typography, color use, and logo spacing or contrast rather than generic brand adjectives alone.
 - Include two or three finished inline SVG illustrations, or two or three precise Midjourney/DALL-E prompts. Prompts must specify subject, composition, palette, style, lighting or texture where relevant, aspect ratio, and exclusions. Label prompts as prompts; do not imply that an image was generated.
 - Inspect user reference images before using them. Translate the aspects the user selected into the design; reuse an exact image only when requested. Embed reused user raster images as data URLs and inline reused SVGs so the output does not depend on neighboring files.
@@ -62,7 +66,7 @@ Prefer CSS and inline SVG for new visuals. When a stock raster is necessary, use
 
 ### CSS tokens
 
-Use clearly commented groups in `:root` for brand primitives, semantic roles, web styling, and mobile-specific overrides. Define all visual styling tokens there: colors, font stacks, type sizes and weights, line heights, spacing, component dimensions, borders, radii, shadows, and motion timings. Component rules consume `var(...)` rather than hard-coded theme values. Structural keywords, layout mechanics, and media-query conditions may remain literal where CSS requires them.
+Use clearly commented groups in `:root` for brand primitives, semantic roles, web styling, and mobile-specific overrides, with named light/dark attribute selectors for appearance overrides. Define all visual styling tokens there: colors, font stacks, type sizes and weights, line heights, spacing, component dimensions, borders, radii, shadows, and motion timings. Component rules consume `var(...)` rather than hard-coded theme values. Structural keywords, layout mechanics, and media-query conditions may remain literal where CSS requires them.
 
 Use semantic names such as `--color-brand-primary`, `--color-surface`, `--color-text`, `--color-border`, `--color-focus-ring`, `--font-heading`, `--space-4`, and `--radius-control`. Make derived values traceable to the brand primitives. Define distinct hover, active, disabled, error, and focus treatments using the same token system.
 
@@ -72,9 +76,9 @@ Keep mobile overrides separately named, for example `--ios-control-height` or `-
 
 Treat CSS `:root` as the source of truth for shared and web styling. In clearly named and commented theme-data script blocks, construct a `portalTheme` object and a `runeTheme` object from resolved CSS tokens. Keep iOS-specific mapping and intentional differences explicit. Do not maintain unrelated hand-edited copies of the same colors or let initialization overwrite a user's CSS token edit with stale JavaScript values.
 
-Render the readable web theme and Rune JSON from these objects. Serialize Rune tokens with `JSON.stringify(runeTheme, null, 2)` into the code element's `textContent`, keeping the displayed JSON valid and aligned with the actual preview.
+Render the readable web theme and Rune JSON from these objects. Serialize Rune tokens with `JSON.stringify(runeTheme, null, 2)` into the code element's `textContent`, keeping the displayed JSON valid and aligned with the actual preview. Re-resolve appearance-dependent tokens after a theme change and refresh both objects, their displayed/copyable JSON, and download data. Keep source-backed Rune schema keys intact; any export wrapper that identifies platform, appearance, or proposed status belongs outside the Rune object.
 
-Keep theme data, product data, rule functions, and event handling in clearly commented blocks. Use a separate interaction script for catalog navigation, application navigation, demo state, dialogs, and any copy controls. Scope handlers to their relevant section, with intentional synchronization only where the same example shares state. Escape user-supplied strings when placing them in HTML or scripts; do not interpolate reference content as executable markup.
+Keep theme data, product data, rule functions, and event handling in clearly commented blocks. Use a separate interaction script for chapter/category navigation, scoped search/filter/disclosure state, application navigation, demo state, dialogs, copy/download tools, and print-state handling. Keep guide state separate from product demo state. Scope handlers to their relevant section, with intentional synchronization only where the same example shares state. Escape user-supplied strings when placing them in HTML or scripts; do not interpolate reference content as executable markup.
 
 On a surgical update, trace the target ID or token group, change only the necessary source values and dependent mappings, and recheck the affected previews and displayed token data. Preserve unrelated content and theme groups. Return the complete updated file.
 
@@ -118,6 +122,7 @@ Label the simulator as an HTML/CSS preview. It demonstrates the design translati
 - Visit every requested application destination in both product previews. Exercise the key feature flows and verify supplied rules affect validation, available actions, transitions, and feedback. Check product-specific cards use realistic domain content.
 - Check that displayed theme data reflects the CSS tokens, and that the Rune block parses as JSON with concrete values and consistent units.
 - Inspect a desktop layout and a narrow viewport when browser tools are available. Check text wrapping, phone containment, overflow, image loading, and readability.
+- Check the guide interactions in [field-guide-experience.md](field-guide-experience.md), including navigation and direct links, scoped search/filter/reset, disclosure controls, keyboard drawer behavior, both appearances, current token copy/download data, and print preview with state restoration.
 - Exercise category navigation, segmented controls, dropdowns, chips, form demos, dialog/sheet open and close behavior, and keyboard focus in both catalogs. Check for JavaScript errors when browser tools expose them.
 - Verify all requested references were either used as directed or explicitly identified as inaccessible. Keep any material assumptions or verification limits visible within the relevant dashboard section.
 - Deliver one complete file with embedded CSS and JavaScript, without unfinished content, omitted code, framework dependencies, or companion assets.

@@ -1,7 +1,7 @@
 interface:
   display_name: "Conjure"
-  short_description: "Build brand, web and iOS component libraries and previews"
-  default_prompt: "Use $conjure to create a brand dashboard with complete web and iOS component libraries and product previews; first ask about my concept, colors, references or images, app tabs, navigation, features, and business rules."
+  short_description: "Build interactive brand guides, libraries, and previews"
+  default_prompt: "Use $conjure to create an editorial brand and product field guide with searchable web/iOS component libraries, working previews, light/dark mode, token downloads, and print support; first ask about my concept, colors, references or images, app tabs, navigation, features, and business rules."
 
 policy:
   allow_implicit_invocation: false
