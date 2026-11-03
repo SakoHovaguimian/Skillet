@@ -1,0 +1,7 @@
+interface:
+  display_name: "Implement Spec"
+  short_description: "Review a plan and prepare an execution specification"
+  default_prompt: "Use $implement-spec to review my existing plan against the target repositories and return an execution specification without changing code."
+
+policy:
+  allow_implicit_invocation: false

@@ -77,6 +77,7 @@ If a skill does not genuinely need a script, reference, or asset, it should not 
 | `fix-root-causes`                       | Debugs the underlying problem instead of patching the symptom.                                                                |
 | `grill-me`                              | Pressure-tests a plan until the important decisions are actually resolved.                                                    |
 | `grimoire-project-scaffolding-protocol` | Scaffolds iOS projects from the Grimoire template.                                                                            |
+| `implement-spec`                       | Reviews an existing plan against repository evidence and produces a guarded, self-contained implementation specification.    |
 | `ios-conversational-planning-grill-me`  | Extends conversational planning with iOS, SwiftUI, Rune, and domain-document discovery.                                       |
 | `project-rune-implementation-protocol`  | Implements Rune-first SwiftUI features while preserving the architecture and patterns already in the project.                 |
 | `swift-6-concurrency`                   | Helps design, migrate, review, and debug Swift 6 concurrency.                                                                 |
