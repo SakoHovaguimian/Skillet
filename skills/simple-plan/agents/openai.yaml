@@ -1,0 +1,7 @@
+interface:
+  display_name: "Simple Plan"
+  short_description: "Condense text and chat into a lossless specification"
+  default_prompt: "Use $simple-plan to condense the supplied text, attachments, and relevant chat into a clear technical specification under 1,000 words, preserving all logic and including any unavoidable overflow."
+
+policy:
+  allow_implicit_invocation: false

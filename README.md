@@ -80,6 +80,7 @@ If a skill does not genuinely need a script, reference, or asset, it should not 
 | `implement-spec`                       | Reviews an existing plan against repository evidence and produces a guarded, self-contained implementation specification.    |
 | `ios-conversational-planning-grill-me`  | Extends conversational planning with iOS, SwiftUI, Rune, and domain-document discovery.                                       |
 | `project-rune-implementation-protocol`  | Implements Rune-first SwiftUI features while preserving the architecture and patterns already in the project.                 |
+| `simple-plan`                          | Condenses text, attachments, and chat into a readable technical specification while preserving every functional rule.         |
 | `swift-6-concurrency`                   | Helps design, migrate, review, and debug Swift 6 concurrency.                                                                 |
 | `swift-sako-semantic-linter`            | Reviews Swift and SwiftUI against my local Sako/Rune conventions instead of generic style rules.                              |
 | `ubiquitous-business-logic`             | Pulls hidden rules, edge cases, deeplinks, analytics behavior, and other business logic into explicit documentation.          |
