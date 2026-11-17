@@ -101,6 +101,7 @@ Use `diff-simplifier` to make a recent change easier to maintain while preservin
 
 | Skill | Purpose |
 | --- | --- |
+| `help-me-senpai` | Explains how something works in plain English using a small example and, when available, a walkthrough of the actual case. |
 | `how-to-use` | Writes a short guide to setting up, using, and checking a product feature. |
 | `unslop` | Clarifies prose while preserving the author’s voice, evidence, and technical meaning. |
 

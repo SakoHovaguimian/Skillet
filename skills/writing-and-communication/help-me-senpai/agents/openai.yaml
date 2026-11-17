@@ -1,0 +1,7 @@
+interface:
+  display_name: "Help Me Senpai"
+  short_description: "Explain how things work with a concrete example"
+  default_prompt: "Use $help-me-senpai to explain how this works in plain English with a small example and its result."
+
+policy:
+  allow_implicit_invocation: false
