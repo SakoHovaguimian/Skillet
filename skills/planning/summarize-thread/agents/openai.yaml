@@ -1,0 +1,7 @@
+interface:
+  display_name: "Summarize Thread"
+  short_description: "Condense requirements without losing their meaning"
+  default_prompt: "Use $summarize-thread to consolidate this material into a concise, self-contained specification, preserving every rule and open decision."
+
+policy:
+  allow_implicit_invocation: false

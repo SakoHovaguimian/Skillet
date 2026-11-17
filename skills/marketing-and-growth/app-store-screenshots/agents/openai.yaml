@@ -1,0 +1,7 @@
+interface:
+  display_name: "App Store Screenshots"
+  short_description: "Art-direct and deliver App Store screenshot campaigns"
+  default_prompt: "Use $app-store-screenshots to turn these app captures and brand assets into a cohesive App Store screenshot campaign, with clear benefits, faithful product imagery, and individual exports."
+
+policy:
+  allow_implicit_invocation: false

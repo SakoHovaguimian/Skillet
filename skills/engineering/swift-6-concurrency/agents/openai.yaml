@@ -1,0 +1,7 @@
+interface:
+  display_name: "Swift 6 Concurrency"
+  short_description: "Implement and migrate Swift concurrency with safe isolation"
+  default_prompt: "Use $swift-6-concurrency to analyze and implement Swift concurrency changes with correct isolation, Sendable safety, and minimal migration risk."
+
+policy:
+  allow_implicit_invocation: false

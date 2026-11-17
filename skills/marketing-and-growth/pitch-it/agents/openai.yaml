@@ -1,0 +1,7 @@
+interface:
+  display_name: "Pitch It"
+  short_description: "Write a one-line pitch and short product description"
+  default_prompt: "Use $pitch-it to explain this product or feature to its intended audience in one line and a short paragraph."
+
+policy:
+  allow_implicit_invocation: false

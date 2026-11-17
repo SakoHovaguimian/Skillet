@@ -1,0 +1,7 @@
+interface:
+  display_name: "Build Brand Guide"
+  short_description: "Build coherent identities, selected libraries, and previews"
+  default_prompt: "Use $build-brand-guide to create a coherent HTML brand and product guide with the identity, web/iOS libraries, or product previews this brief needs; reuse supplied answers and preserve existing brand assets."
+
+policy:
+  allow_implicit_invocation: false

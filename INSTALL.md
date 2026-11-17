@@ -1,0 +1,81 @@
+# Install Skillet
+
+This is the canonical installation guide for `sakohovaguimian/skillet`.
+
+## Prerequisites
+
+- Node.js with `npx`
+- Git access to `github.com/sakohovaguimian/skillet`
+- Codex, Claude Code, or both
+
+The GitHub repository must exist before the owner/repository commands below can
+download it.
+
+## Install all skills into Codex and Claude Code
+
+Run once from any terminal:
+
+```bash
+npx skills@latest add sakohovaguimian/skillet --global --agent codex claude-code --skill '*' --yes
+```
+
+This installs at user scope (`--global`), targets both agents, selects every skill,
+and skips interactive confirmation. Installed skills remain ordinary inspectable
+files managed by the `skills` CLI.
+
+All Skillet skills are explicit-only. Invoke one with `$skill-name` in Codex or
+`/skill-name` in Claude Code; neither agent should select these skills automatically.
+Section folders organize the source repository. Install or invoke a skill by its
+name without the section prefix.
+
+## Install into one agent
+
+Codex only:
+
+```bash
+npx skills@latest add sakohovaguimian/skillet --global --agent codex --skill '*' --yes
+```
+
+Claude Code only:
+
+```bash
+npx skills@latest add sakohovaguimian/skillet --global --agent claude-code --skill '*' --yes
+```
+
+## Verify
+
+```bash
+npx skills@latest list --global
+```
+
+Before comparing skill behavior across revisions, record the source commit and the resolved installed skill paths. Compare each entry point and its referenced files with that revision, and check for duplicate frontmatter names. Resolve stale or duplicate installations through an explicitly requested installation cleanup; do not patch installed copies directly.
+
+## Update
+
+Update the installed set from its recorded sources:
+
+```bash
+npx skills@latest update --global --yes
+```
+
+If the repository has gained a new skill or a skill name has changed, rerun
+the install command to select the new name. Check the installed list for any
+retired names before cleaning up old copies.
+
+## Inspect this checkout without installing
+
+From the repository root:
+
+```bash
+python3 scripts/validate_repository.py
+npx skills@latest add . --list
+```
+
+The first command validates the repository contract and bundled helpers. The
+second prints the skills discovered in the checkout and does not install them.
+
+## For Codex or Claude acting on an install request
+
+When the user asks to install all Skillet skills, run the combined install command
+above. Do not manually copy individual folders unless the `skills` CLI is unavailable
+or the user explicitly requests a manual installation.

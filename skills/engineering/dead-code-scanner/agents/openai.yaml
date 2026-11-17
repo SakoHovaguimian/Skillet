@@ -1,0 +1,7 @@
+interface:
+  display_name: "Dead Code Scanner"
+  short_description: "Audit unreachable and unnecessary repository code"
+  default_prompt: "Use $dead-code-scanner to audit this repository for unreachable code, dead ends, unnecessary references, obsolete resources, and removable dependencies."
+
+policy:
+  allow_implicit_invocation: false

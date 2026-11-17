@@ -1,0 +1,7 @@
+interface:
+  display_name: "BackPort"
+  short_description: "Compare template evolution and prioritize adoption"
+  default_prompt: "Use $backport to compare this project with its source template using the target project's creation date as the baseline, and return a detailed, prioritized adoption report without applying changes."
+
+policy:
+  allow_implicit_invocation: false

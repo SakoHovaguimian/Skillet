@@ -1,0 +1,7 @@
+interface:
+  display_name: "What's New for the App Store"
+  short_description: "Write short App Store notes from the last GitHub release tag"
+  default_prompt: "Use $whats-new-app-store to write short emoji-prefixed App Store notes since the latest GitHub release tag."
+
+policy:
+  allow_implicit_invocation: false

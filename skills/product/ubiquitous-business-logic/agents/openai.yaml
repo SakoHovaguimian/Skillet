@@ -1,0 +1,7 @@
+interface:
+  display_name: "Ubiquitous Business Logic"
+  short_description: "Document business rules and domain oddities from code"
+  default_prompt: "Use $ubiquitous-business-logic to document the actual business rules in this repository’s canonical feature documents, preserving evidence and uncertainty."
+
+policy:
+  allow_implicit_invocation: false

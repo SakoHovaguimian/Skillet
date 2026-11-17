@@ -1,0 +1,7 @@
+interface:
+  display_name: "Plan a Launch"
+  short_description: "Plan launch branding, marketing, and social rollout"
+  default_prompt: "Use $plan-a-launch to turn this brief into a coordinated brand, marketing, and social launch plan."
+
+policy:
+  allow_implicit_invocation: false

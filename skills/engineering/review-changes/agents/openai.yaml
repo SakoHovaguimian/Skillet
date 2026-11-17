@@ -1,0 +1,7 @@
+interface:
+  display_name: "Review Changes"
+  short_description: "Independently review changes for bugs and regressions"
+  default_prompt: "Use $review-changes to independently review this diff for bugs, regressions, and missed requirements."
+
+policy:
+  allow_implicit_invocation: false

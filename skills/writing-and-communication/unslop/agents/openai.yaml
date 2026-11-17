@@ -1,0 +1,7 @@
+interface:
+  display_name: "Unslop"
+  short_description: "Clarify prose while preserving the author’s voice"
+  default_prompt: "Use $unslop to edit this draft for clarity while preserving its voice, meaning, and technical details."
+
+policy:
+  allow_implicit_invocation: false

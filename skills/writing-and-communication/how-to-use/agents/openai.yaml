@@ -1,0 +1,7 @@
+interface:
+  display_name: "How to Use"
+  short_description: "Explain how to turn on, use, and try a feature"
+  default_prompt: "Use $how-to-use to write a short guide that shows how to set up this feature, try it, and know it worked."
+
+policy:
+  allow_implicit_invocation: false

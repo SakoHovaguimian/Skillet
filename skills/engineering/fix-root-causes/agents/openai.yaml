@@ -1,0 +1,7 @@
+interface:
+  display_name: "Fix Root Causes"
+  short_description: "Prove the failure mechanism and repair its owner"
+  default_prompt: "Use $fix-root-causes to investigate this failure, distinguish competing causes, and repair the demonstrated mechanism within scope."
+
+policy:
+  allow_implicit_invocation: false
